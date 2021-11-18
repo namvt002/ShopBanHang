@@ -200,7 +200,6 @@
                 <!-- /.container-fluid -->
                 <?php require 'dashboard-home.php'; ?>
                 <!-- code in here -->.
-                <h1>cho code</h1>
 
                 <!--  -->
 
