@@ -28,34 +28,38 @@
 <?php
 
     require_once "./database/database_connection.php";
-    $sql = "SELECT * FROM san_pham";
+
+    $sql ="SELECT * FROM san_pham" ;
     $result = $con->query($sql);
 
-    if (isset($_POST['submit-add'])) {
+
+    $sqlEditkm = "SELECT * FROM chi_tiet_khuyen_mai as ct JOIN san_pham as sp ON ct.SP_MA = sp.SP_MA WHERE ct.CTKM_MA = '".$_GET['id'] ."'";
+    $resultEditkm = $con->query($sqlEditkm);
+    $rowEditkm  = $resultEditkm ->fetch_assoc();
+
+    if(isset($_POST['submit_edit'])){
         $KM_TEN = $_POST['name_promotion'];
         $KM_NGAYBD = $_POST['start_date'];
         $KM_NGAYKT = $_POST['end_date'];
-        $CTKM_PHANTRAMKM = $_POST['sale']; //float
+        $CTKM_PHANTRAMKM = $_POST['sale'];//float
         $LOAI_HANG = $_POST['Loai_Hang'];
-        $sqlKhuyenMai = "INSERT INTO `chi_tiet_khuyen_mai` (`SP_MA`, `CTKM_PHANTRAM`, `CTKM_TEN`, `CTKM_NGAYBD`, `CTKM_NGAYKT`) VALUES ('$LOAI_HANG', '$CTKM_PHANTRAMKM', ' $KM_TEN', '$KM_NGAYBD', '$KM_NGAYKT')";
+                
+        $sqlEdit = "UPDATE `chi_tiet_khuyen_mai` SET `SP_MA`='$LOAI_HANG',`CTKM_PHANTRAM`='$CTKM_PHANTRAMKM',`CTKM_TEN`=' $KM_TEN',`CTKM_NGAYBD`='$KM_NGAYBD',`CTKM_NGAYKT`='$KM_NGAYKT' WHERE  CTKM_MA = '".$_GET['id'] ."'";
 
-        if (!$con->query($sqlKhuyenMai) === TRUE) {
+        if(!$con->query($sqlEdit) ===TRUE){
             echo "<script type='text/javascript'>
-                        alert('Không thêm được khuyến mãi thành công!');
-                        document.location='dashboard-promotion.php';
-                    </script>";
-        } else {
+                    alert('Khuyến mãi không được cập nhật!');
+                    document.location='dashboard-promotion-edit.php';
+                </script>";
+        }else{
             echo "<script type='text/javascript'>
-                        alert('Thêm khuyến mãi thành công!');
-                        document.location='dashboard-promotion.php';
-                    </script>";
+                    alert('Khuyến mãi cập nhật thành công!');
+                    document.location='dashboard-promotion.php';
+                </script>";
         }
+        $con->close();
+        
     }
-
-    $sqlkm = "SELECT ct.CTKM_MA, ct.CTKM_TEN, ct.CTKM_NGAYBD, ct.CTKM_NGAYKT, sp.SP_TEN, ct.CTKM_PHANTRAM
-    FROM san_pham AS sp
-        JOIN chi_tiet_khuyen_mai AS ct ON sp.SP_MA = ct.SP_MA;";
-    $resultkm = $con->query($sqlkm);
 
 ?>
 
@@ -215,123 +219,50 @@
 
                 <!-- code in here -->.
                 <div class="container-fluid">
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Khuyến mãi</h1>
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Tên khuyến mãi:</label>
+                                <input type="text" name="name_promotion" class="form-control" value="<?php echo $rowEditkm['CTKM_TEN']; ?>" placeholder="Nhập tên khuyến mãi">
+                            </div>
+                            <div class="mb-3">
+                                <label>Loại sản phẩm</label> <br>
+                                <select class="form-select" aria-label="Default select example" name="Loai_Hang">
+                                    <option value="<?php echo $rowEditkm['SP_MA']; ?>"> <?php  echo   $rowEditkm['SP_TEN'];?></option>
+                                        <?php 
+                                            while($row= $result->fetch_assoc()){
+                                                echo " <option value=". $row['SP_MA'] .">";
+                                                echo   $row['SP_TEN'];
+                                                echo " </option>" ; 
+                                            }
+                                            $result->free();
+                                        ?>
+                                </select>
+                            </div>
 
-                    </div>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <form method="post" action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-1 small" placeholder="Search " aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Phần trăm khuyến mãi mãi:</label>
+                                <input type="type" name="sale" class="form-control"  value="<?php echo $rowEditkm['CTKM_PHANTRAM']; ?>" placeholder="Nhập tỉ lệ khuyến mãi">
+                            </div>
 
+                            <div class="mb-3">
+                                <label>Ngày bắt đầu áp dụng</label> <br>
+                                <input type="date" name="start_date" value="<?php echo $rowEditkm['CTKM_NGAYBD']; ?>" class="form-control">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Ngày kết thúc</label>
+                                <input type="date" name="end_date" value="<?php echo $rowEditkm['CTKM_NGAYKT']; ?>" class="form-control">
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" name="submit_edit" class="btn btn-primary" value="Thêm mới">
+                                <a href="./dashboard-promotion.php" class="btn btn-secondary">Đóng</a>
                             </div>
                         </form>
-
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-download fa-sm text-white-50"></i>Thêm khuyễn mãi mới</button>
-
                     </div>
 
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới khuyến mãi</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên khuyến mãi:</label>
-                                            <input type="text" name="name_promotion"  class="form-control"  placeholder="Nhập tên khuyến mãi">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
-                                                <?php
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo " <option value=" . $row['SP_MA'] . ">";
-                                                        echo   $row['SP_TEN'];
-                                                        echo " </option>";
-                                                    }
-                                                    $result->free();
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Phần trăm khuyến mãi mãi:</label>
-                                            <input type="type" name="sale" class="form-control" placeholder="Nhập tỉ lệ khuyến mãi">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label>Ngày bắt đầu áp dụng</label> <br>
-                                            <input type="date" name="start_date" id="" class="form-control">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Ngày kết thúc</label>
-                                            <input type="date" name="end_date" id="" class="form-control" >
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="submit" name="submit-add" class="btn btn-primary" value="Thêm mới" >
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-
-                                        </div>
-                                    </form>
-                                </div>
-                               
-                            </div>
-                        </div>
-                    </div>
-
-                    <table class="table table-hover" class="text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Tên khuyến mãi</th>
-                                <th scope="col">Ngày bắt đầu</th>
-                                <th scope="col">Ngày kết thúc</th>
-                                <th scope="col">Tên sản phẩm khuyến mãi</th>
-                                <th scope="col">Phần trăm khuyến mãi </th>
-
-
-                                <th scope="col" class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <?php 
-                                $i = 1;
-                                while($rowkm = $resultkm->fetch_assoc()){
-                                   
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td > ". $rowkm['CTKM_TEN'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_NGAYBD'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_NGAYKT'] ." </td>";
-                                    echo " <td > ". $rowkm['SP_TEN'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_PHANTRAM'] ." </td>"  ;
-                                    echo " <td scope='row' class='text-center'>
-                                        <a href='./dashboard-promotion-edit.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                        <a href='./dashboard-promotion-delete.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
-                                    </td>";
-                                
-                                    echo " </tr>";
-                                    $i++;
-                                }
-                            ?>
-
-                        </tbody>
-
-                    </table>
                 </div>
+
                 <!--  -->
 
             </div>
