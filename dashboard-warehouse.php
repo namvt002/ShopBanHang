@@ -24,6 +24,54 @@
 
 </head>
 
+
+<?php
+    require_once "./database/database_connection.php";
+    session_start();
+    if(!isset($_SESSION['admin'])){
+        header("Location:./login.php");
+    }
+
+    //session_start();
+    if(isset($_SESSION['admin'])){
+        $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+        $result = $con->query($sql);
+        $row = $result->fetch_assoc();// tra ve mot dong ket qua
+    }
+
+    if(isset($_POST['logout'])){
+        unset($_SESSION['admin']);
+        header("Location:./login.php");
+    }
+
+    $sqlK = "SELECT * FROM kho_hang";
+    $resultKho = $con->query($sqlK);
+
+
+    if(isset($_POST['submit-add'])){
+        $ten = $_POST['name_warehouse'];
+        $DC = $_POST['address'];
+
+        $sqlKho = "INSERT INTO kho_hang(K_TEN, K_DIACHI) VALUES ('$ten','$DC')";
+
+        if($con->query($sqlKho) === TRUE){
+
+            echo "<script type='text/javascript'>
+                        alert('Thêm kho mới thành công!');
+                        document.location='dashboard-warehouse.php';
+                    </script>";
+        }else{
+            echo "<script type='text/javascript'>
+                        alert('Thêm kho không thành công!');
+                        document.location='dashboard-warehouse.php';
+                    </script>";
+        }
+
+    }
+
+
+?>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -147,7 +195,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo $row['NV_TEN']; ?> </span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -212,53 +260,23 @@
                                 <div class="modal-body">
                                     <form action="" method="post" enctype="multipart/form-data">
                                         <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên sản phẩm:</label>
-                                            <input type="text" name="name_product" class="form-control" placeholder="Nhập tên sản phẩm">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
-                                                <?php
-                                                    // while ($row = $result->fetch_assoc()) {
-                                                    //     echo " <option value=" . $row['LH_MA'] . ">";
-                                                    //     echo   $row['LH_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
+                                            <label for="recipient-name" class="col-form-label">Tên kho:</label>
+                                            <input type="text" name="name_warehouse" class="form-control" placeholder="Nhập tên kho">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Chọn hình ảnh:</label>
-                                            <input type="file" name="imgProduct" class="form-control">
+                                            <label for="recipient-name" class="col-form-label">Địa chỉ:</label>
+                                            <input type="type" name="address" class="form-control" placeholder="Nhập địa chỉ kho">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label>Nhà sản xuất</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Nha_San_Xuat">
-                                                <option value="">---Chọn loại nhà sản xuất---</option>
-                                                <?php
-                                               
-                                                    // while ($rowNSX = $resultNSX->fetch_assoc()) {
-                                                    //     echo " <option value=" . $rowNSX['NSX_MA'] . ">";
-                                                    //     echo   $rowNSX['NSX_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="submit-add" class="btn btn-primary" value="Thêm mới" >
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Giá:</label>
-                                            <input type="text" name="price" class="form-control" placeholder="Nhập giá">
-                                        </div>
+                                        
                                     </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" value="Thêm mới" name="submit-add">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-
                                 </div>
                             </div>
                         </div>
@@ -267,30 +285,30 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên kho</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                          
+                            <?php 
+                                $i = 1;
+                                while($rowKho = $resultKho->fetch_assoc()){
+                                    echo "<tr>";
+                                    echo " <th scope='row'>$i</th>";
+                                    echo " <td > ". $rowKho['K_TEN'] ." </td>";
+                                    echo " <td > ". $rowKho['K_DIACHI'] ." </td>";
+                                  
+                                    echo " <td scope='row' class='text-center'>
+                                        <a href='./dashboard-warehouse-edit.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                        <a href='./dashboard-warehouse-delete.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                    </td>";
+                                    echo " </tr>";
+                                    $i++;
+                                }
+                            ?>
                         </tbody>
 
                     </table>
@@ -322,10 +340,12 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="" method="post">
+                       <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+                    </form>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>
             </div>
         </div>

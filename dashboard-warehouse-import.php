@@ -24,6 +24,75 @@
 
 </head>
 
+
+<?php
+    require_once "./database/database_connection.php";
+    session_start();
+    if (!isset($_SESSION['admin'])) {
+        header("Location:./login.php");
+    }
+
+    //session_start();
+    if (isset($_SESSION['admin'])) {
+        $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+        $result = $con->query($sql);
+        $row = $result->fetch_assoc(); // tra ve mot dong ket qua
+    }
+
+    if (isset($_POST['logout'])) {
+        unset($_SESSION['admin']);
+        header("Location:./login.php");
+    }
+
+    $sqlNH = "SELECT * FROM chi_tiet_phieu_nhap AS ct 
+        JOIN san_pham AS sp ON ct.SP_MA = sp.SP_MA
+        JOIN kho_hang AS kh ON ct.K_MA = kh.K_MA
+        JOIN size AS s ON ct.S_MA = s.S_MA
+        JOIN mau AS m ON ct.M_MA = m.M_MA";
+    $resultNH = $con->query($sqlNH);
+
+
+    $sqlsp = "SELECT * FROM san_pham";
+    $resultsp = $con->query($sqlsp);
+
+    $sqlMau = "SELECT * FROM mau";
+    $resultMau = $con->query($sqlMau);
+
+    $sqlSize = "SELECT * FROM size";
+    $resultSize = $con->query($sqlSize);
+
+    $sqlKho = "SELECT * FROM `kho_hang`";
+    $resultKho = $con->query($sqlKho);
+
+    if (isset($_POST['submit-add'])) {
+
+        try {
+            $nameProduct = $_POST['name_product'];
+            $quantity = $_POST['quantity'];
+            $price = $_POST['price'];
+            $size = $_POST['size'];
+            $color = $_POST['color'];
+            $warehouse = $_POST['warehouse'];
+
+            $sqlNH = "INSERT INTO `chi_tiet_phieu_nhap`( `K_MA`, `M_MA`, `S_MA`, `SP_MA`, `CTPN_SOLUONG`, `CTPN_DONGIA`) VALUES ('$warehouse','$color','$size','$nameProduct','$quantity','$price')";
+
+            if (!$con->query($sqlNH) === TRUE) {
+                echo "<script type='text/javascript'>
+                            alert('Thêm mới nhập hàng không thành công!');
+                            document.location='dashboard-warehouse-import.php';
+                        </script>";
+            } else {
+                echo "<script type='text/javascript'>
+                            alert('Thêm mới nhập hàng thành công!');
+                            document.location='dashboard-warehouse-import.php';
+                        </script>";
+            }
+        } catch (PDOException $e) {
+            printf($e->getMessage());
+        }
+    }
+?>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -147,7 +216,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo $row['NV_TEN']; ?> </span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -211,54 +280,88 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên sản phẩm:</label>
-                                            <input type="text" name="name_product" class="form-control" placeholder="Nhập tên sản phẩm">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
+
+                                        <div class="form-group">
+                                            <label>Tên sản phẩm:</label> <br>
+                                            <select class='form-control' name='name_product'>
+                                                <option>---Chọn tên sản phẩm---</option>
                                                 <?php
-                                                    // while ($row = $result->fetch_assoc()) {
-                                                    //     echo " <option value=" . $row['LH_MA'] . ">";
-                                                    //     echo   $row['LH_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
+
+                                                while ($rowsp = $resultsp->fetch_assoc()) {
+                                                    echo " <option value=" . $rowsp['SP_MA'] . ">";
+                                                    echo   $rowsp['SP_TEN'];
+                                                    echo " </option>";
+                                                }
+                                                $result->free();
                                                 ?>
                                             </select>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Chọn hình ảnh:</label>
-                                            <input type="file" name="imgProduct" class="form-control">
+                                        <div class="form-group">
+                                            <label for="quantity">Chọn số lượng:</label>
+                                            <input type="number" id="quantity" name="quantity" min="1" max="100">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label>Nhà sản xuất</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Nha_San_Xuat">
-                                                <option value="">---Chọn loại nhà sản xuất---</option>
+                                        <div class="form-group">
+                                            <label>Giá nhập:</label> <br>
+                                            <input type="text" name="price" class="form-control" placeholder="Giá nhập sản phẩm">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Size sản phẩm:</label> <br>
+                                            <select class='form-control' name='size'>
+                                                <option>---Chọn size sản phẩm---</option>
                                                 <?php
-                                               
-                                                    // while ($rowNSX = $resultNSX->fetch_assoc()) {
-                                                    //     echo " <option value=" . $rowNSX['NSX_MA'] . ">";
-                                                    //     echo   $rowNSX['NSX_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
+
+                                                while ($rowSize = $resultSize->fetch_assoc()) {
+                                                    echo " <option value=" . $rowSize['S_MA'] . ">";
+                                                    echo   $rowSize['S_TEN'];
+                                                    echo " </option>";
+                                                }
+
                                                 ?>
                                             </select>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Giá:</label>
-                                            <input type="text" name="price" class="form-control" placeholder="Nhập giá">
+                                        <div class="form-group">
+                                            <label>Màu sản phẩm:</label> <br>
+                                            <select class='form-control' name='color'>
+                                                <option>---Chọn màu sản phẩm---</option>
+                                                <?php
+
+                                                while ($rowMau = $resultMau->fetch_assoc()) {
+                                                    echo " <option value=" . $rowMau['M_MA'] . ">";
+                                                    echo   $rowMau['M_TEN'];
+                                                    echo " </option>";
+                                                }
+
+                                                ?>
+                                            </select>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>Kho hàng:</label> <br>
+                                            <select class='form-control' name='warehouse'>
+                                                <option>---Chọn kho hàng sản phẩm---</option>
+                                                <?php
+                                             
+                                                    while ($rowKho = $resultKho->fetch_assoc()) {
+                                                        echo " <option value=" . $rowKho['K_MA'] . ">";
+                                                        echo   $rowKho['K_TEN'];
+                                                        echo " </option>";
+                                                    }
+
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="submit-add" class="btn btn-primary" value="Thêm mới" >
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+
+                                        </div>
+
+
                                     </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" value="Thêm mới" name="submit-add">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-
                                 </div>
                             </div>
                         </div>
@@ -267,30 +370,42 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Màu</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá</th>
+                                <th scope="col">Ngày nhập</th>
+                                <th scope="col">Tên kho hàng</th>
+                                <th scope="col">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                         
+                            <?php 
+                                $i = 1;
+                                while($rowNH = $resultNH->fetch_assoc()){
+                                    echo "<tr>";
+                                    echo " <th scope='row'>$i</th>";
+       
+                                    echo " <td> ". $rowNH['SP_TEN'] ." </td>";
+                                    echo " <td> ". $rowNH['M_TEN'] ." </td>";
+                                    echo " <td> ". $rowNH['S_TEN'] ." </td>";
+                                    echo " <td> ". $rowNH['CTPN_SOLUONG'] ." </td>";
+                                    echo " <td> ". $rowNH['CTPN_DONGIA'] ." </td>";
+                                    echo " <td> ". $rowNH['CTPN_NGAY'] ." </td>";
+                                    echo " <td> ". $rowNH['K_TEN'] ." </td>";
+                                
+                                    echo " <td scope='row' class='text-center'>
+                                    <a href='./dashboard-warehouse-import-edit.php?id=". $rowNH['CTPN_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                    <a href='./dashboard-warehouse-import-delete.php?id=". $rowNH['CTPN_MA']  ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                    </td>";
+                                
+                                    echo " </tr>";
+                                    $i++;
+                                }
+                            ?>
                         </tbody>
 
                     </table>
@@ -322,10 +437,12 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="" method="post">
+                        <input type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+                    </form>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>
             </div>
         </div>

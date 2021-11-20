@@ -44,6 +44,35 @@
         header("Location:./login.php");
     }
 
+    $sqlK = "SELECT * FROM kho_hang";
+    $resultKho = $con->query($sqlK);
+
+
+    $sqledit = "SELECT * FROM kho_hang Where K_MA = '".$_GET['id'] ."'";
+    $resultEditKho = $con->query($sqledit);
+    $rowEditKho = $resultEditKho ->fetch_assoc();
+
+    if(isset($_POST['submit_edit'])){
+        $ten = $_POST['name_warehouse'];
+        $DC = $_POST['address'];
+
+        $sqlKho = "UPDATE kho_hang SET K_TEN='$ten',K_DIACHI='$DC' WHERE K_MA = '".$_GET['id'] ."'";
+
+        if($con->query($sqlKho) === TRUE){
+
+            echo "<script type='text/javascript'>
+                        alert('Cập nhật kho mới thành công!');
+                        document.location='dashboard-warehouse.php';
+                    </script>";
+        }else{
+            echo "<script type='text/javascript'>
+                        alert('Cập nhật kho không thành công!');
+                        document.location='dashboard-warehouse-edit.php';
+                    </script>";
+        }
+
+    }
+
 
 ?>
 
@@ -203,124 +232,30 @@
 
                 <!-- code in here -->.
                 <div class="container-fluid">
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Tên kho:</label>
+                                <input type="text" name="name_warehouse" class="form-control" value="<?php echo $rowEditKho['K_TEN']; ?>" placeholder="Nhập tên kho">
+                            </div>
 
-                    </div>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <form method="post" action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-1 small" placeholder="Search " aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label" >Địa chỉ:</label>
+                                <input type="type" name="address" class="form-control" value="<?php echo $rowEditKho['K_DIACHI']; ?>"  placeholder="Nhập địa chỉ kho">
+                            </div>
+
+                            <div class="modal-footer">
+                                <input type="submit" name="submit_edit" class="btn btn-primary" value="Cập nhật" >
+                                <a href="./dashboard-warehouse.php" class="btn btn-secondary">Đóng</a>
 
                             </div>
+
+                            
                         </form>
-
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-download fa-sm text-white-50"></i>Thêm sản phẩm</button>
-
+    
                     </div>
 
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm mới</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên sản phẩm:</label>
-                                            <input type="text" name="name_product" class="form-control" placeholder="Nhập tên sản phẩm">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
-                                                <?php
-                                                    // while ($row = $result->fetch_assoc()) {
-                                                    //     echo " <option value=" . $row['LH_MA'] . ">";
-                                                    //     echo   $row['LH_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Chọn hình ảnh:</label>
-                                            <input type="file" name="imgProduct" class="form-control">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label>Nhà sản xuất</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Nha_San_Xuat">
-                                                <option value="">---Chọn loại nhà sản xuất---</option>
-                                                <?php
-                                               
-                                                    // while ($rowNSX = $resultNSX->fetch_assoc()) {
-                                                    //     echo " <option value=" . $rowNSX['NSX_MA'] . ">";
-                                                    //     echo   $rowNSX['NSX_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Giá:</label>
-                                            <input type="text" name="price" class="form-control" placeholder="Nhập giá">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" value="Thêm mới" name="submit-add">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
                 </div>
-                <!--  -->
-
-            </div>
             <!-- End of Main Content -->
 
 

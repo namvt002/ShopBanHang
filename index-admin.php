@@ -25,6 +25,28 @@
 
 </head>
 
+<?php
+    require_once "./database/database_connection.php";
+    session_start();
+    if(!isset($_SESSION['admin'])){
+        header("Location:./login.php");
+    }
+
+    //session_start();
+    if(isset($_SESSION['admin'])){
+        $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+        $result = $con->query($sql);
+        $row = $result->fetch_assoc();// tra ve mot dong ket qua
+    }
+
+    if(isset($_POST['logout'])){
+        unset($_SESSION['admin']);
+        header("Location:./login.php");
+    }
+
+
+?>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -166,7 +188,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo $row['NV_TEN']; ?> </span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -229,10 +251,14 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="" method="post">
+                       
+                            <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+  
+                    </form>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>
             </div>
         </div>

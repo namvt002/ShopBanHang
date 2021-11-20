@@ -28,22 +28,73 @@
 <?php
     require_once "./database/database_connection.php";
     session_start();
-    if(!isset($_SESSION['admin'])){
+    if (!isset($_SESSION['admin'])) {
         header("Location:./login.php");
     }
 
     //session_start();
-    if(isset($_SESSION['admin'])){
+    if (isset($_SESSION['admin'])) {
         $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
         $result = $con->query($sql);
-        $row = $result->fetch_assoc();// tra ve mot dong ket qua
+        $row = $result->fetch_assoc(); // tra ve mot dong ket qua
     }
 
-    if(isset($_POST['logout'])){
+    if (isset($_POST['logout'])) {
         unset($_SESSION['admin']);
         header("Location:./login.php");
     }
 
+    $sqlEditNH = "SELECT * FROM chi_tiet_phieu_nhap AS ct 
+    JOIN san_pham AS sp ON ct.SP_MA = sp.SP_MA
+    JOIN kho_hang AS kh ON ct.K_MA = kh.K_MA
+    JOIN size AS s ON ct.S_MA = s.S_MA
+    JOIN mau AS m ON ct.M_MA = m.M_MA WHERE ct.CTPN_MA = '".$_GET['id'] ."'";;
+    $resultEditNH = $con->query($sqlEditNH);
+    $rowEditNH  = $resultEditNH ->fetch_assoc();
+
+
+    $sqlsp = "SELECT * FROM san_pham";
+    $resultsp = $con->query($sqlsp);
+
+    $sqlMau = "SELECT * FROM mau";
+    $resultMau = $con->query($sqlMau);
+
+    $sqlSize = "SELECT * FROM size";
+    $resultSize = $con->query($sqlSize);
+
+    $sqlKho = "SELECT * FROM `kho_hang`";
+    $resultKho = $con->query($sqlKho);
+
+    if(isset($_POST['submit_edit'])){
+
+        try{
+            $nameProduct = $_POST['name_product'];
+            $quantity = $_POST['quantity'];
+            $price = $_POST['price'];
+            $size = $_POST['size'];
+            $color = $_POST['color'];
+            $warehouse = $_POST['warehouse'];
+            
+        
+
+            $sqlNH ="UPDATE `chi_tiet_phieu_nhap` SET `K_MA`='$warehouse',`M_MA`='$color',`S_MA`='$size',`SP_MA`='$nameProduct',`CTPN_SOLUONG`='$quantity',`CTPN_DONGIA`='$price' WHERE CTPN_MA = '".$_GET['id'] ."'";
+
+            if(!$con->query($sqlNH) ===TRUE){
+                echo "<script type='text/javascript'>
+                        alert('Cập nhật nhập hàng không thành công!');
+                        document.location='dashboard-warehouse-import.php';
+                    </script>";
+            }else{
+                echo "<script type='text/javascript'>
+                        alert('Cập nhật nhập hàng thành công!');
+                        document.location='dashboard-warehouse-import.php';
+                    </script>";
+            }   
+        }catch(PDOException $e){
+            printf($e->getMessage());
+        }
+    }
+        
 
 ?>
 
@@ -144,27 +195,6 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -203,120 +233,97 @@
 
                 <!-- code in here -->.
                 <div class="container-fluid">
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Sản phẩm</h1>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cập nhật nhập hàng</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data">
 
-                    </div>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <form method="post" action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-1 small" placeholder="Search " aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
+                                <div class="form-group">
+                                    <label>Tên sản phẩm:</label> <br>
+                                    <select class='form-control' name='name_product'>
+                                    <option value="<?php echo $rowEditNH['SP_MA']; ?>"> <?php  echo   $rowEditNH['SP_TEN'];?></option>
+                                        <?php
+
+                                        while ($rowsp = $resultsp->fetch_assoc()) {
+                                            echo " <option value=" . $rowsp['SP_MA'] . ">";
+                                            echo   $rowsp['SP_TEN'];
+                                            echo " </option>";
+                                        }
+                                        $result->free();
+                                        ?>
+                                    </select>
                                 </div>
 
-                            </div>
-                        </form>
-
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-download fa-sm text-white-50"></i>Thêm sản phẩm</button>
-
-                    </div>
-
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm mới</h5>
+                                <div class="form-group">
+                                    <label for="quantity">Chọn số lượng:</label>
+                                    <input type="number" id="quantity" name="quantity" value= "<?php echo $rowEditNH['CTPN_SOLUONG']; ?>" min="1" max="100">
                                 </div>
-                                <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên sản phẩm:</label>
-                                            <input type="text" name="name_product" class="form-control" placeholder="Nhập tên sản phẩm">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
-                                                <?php
-                                                    // while ($row = $result->fetch_assoc()) {
-                                                    //     echo " <option value=" . $row['LH_MA'] . ">";
-                                                    //     echo   $row['LH_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
-                                        </div>
 
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Chọn hình ảnh:</label>
-                                            <input type="file" name="imgProduct" class="form-control">
-                                        </div>
+                                <div class="form-group">
+                                    <label>Giá nhập:</label> <br>
+                                    <input type="text" name="price" class="form-control" value= "<?php echo $rowEditNH['CTPN_DONGIA']; ?>"  placeholder="Giá nhập sản phẩm">
+                                </div>
 
-                                        <div class="mb-3">
-                                            <label>Nhà sản xuất</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Nha_San_Xuat">
-                                                <option value="">---Chọn loại nhà sản xuất---</option>
-                                                <?php
-                                               
-                                                    // while ($rowNSX = $resultNSX->fetch_assoc()) {
-                                                    //     echo " <option value=" . $rowNSX['NSX_MA'] . ">";
-                                                    //     echo   $rowNSX['NSX_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
-                                        </div>
+                                <div class="form-group">
+                                    <label>Size sản phẩm:</label> <br>
+                                    <select class='form-control' name='size'>
+                                    <option value="<?php echo $rowEditNH['S_MA']; ?>"> <?php  echo   $rowEditNH['S_TEN'];?></option>
+                                        <?php
 
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Giá:</label>
-                                            <input type="text" name="price" class="form-control" placeholder="Nhập giá">
-                                        </div>
-                                    </form>
+                                        while ($rowSize = $resultSize->fetch_assoc()) {
+                                            echo " <option value=" . $rowSize['S_MA'] . ">";
+                                            echo   $rowSize['S_TEN'];
+                                            echo " </option>";
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Màu sản phẩm:</label> <br>
+                                    <select class='form-control' name='color'>
+                                    <option value="<?php echo $rowEditNH['M_MA']; ?>"> <?php  echo   $rowEditNH['M_TEN'];?></option>
+                                        <?php
+
+                                        while ($rowMau = $resultMau->fetch_assoc()) {
+                                            echo " <option value=" . $rowMau['M_MA'] . ">";
+                                            echo   $rowMau['M_TEN'];
+                                            echo " </option>";
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Kho hàng:</label> <br>
+                                    <select class='form-control' name='warehouse'>
+                                    <option value="<?php echo $rowEditNH['K_MA']; ?>"> <?php  echo   $rowEditNH['K_TEN'];?></option>
+                                        <?php
+
+                                        while ($rowKho = $resultKho->fetch_assoc()) {
+                                            echo " <option value=" . $rowKho['K_MA'] . ">";
+                                            echo   $rowKho['K_TEN'];
+                                            echo " </option>";
+                                        }
+
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" value="Thêm mới" name="submit-add">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <input type="submit" name="submit_edit" class="btn btn-primary" value="Cập nhật">
+                                    <a href="./dashboard-warehouse-import.php" class="btn btn-secondary">Đóng</a>
 
                                 </div>
-                            </div>
+
+
+                            </form>
                         </div>
                     </div>
 
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
                 </div>
                 <!--  -->
 
@@ -348,7 +355,7 @@
                 <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
                     <form action="" method="post">
-                       <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+                        <input type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
                     </form>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>
