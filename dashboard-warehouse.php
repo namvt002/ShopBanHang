@@ -235,7 +235,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-1 small" placeholder="Search " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
@@ -288,7 +288,7 @@
                                 <th scope="col">STT</th>
                                 <th scope="col">Tên kho</th>
                                 <th scope="col">Địa chỉ</th>
-                                <th scope="col">Thao tác</th>
+                                  <th scope="col" class="text-center" >Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody>

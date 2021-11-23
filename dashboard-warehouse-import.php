@@ -256,7 +256,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-1 small" placeholder="Search " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
@@ -378,7 +378,7 @@
                                 <th scope="col">Đơn giá</th>
                                 <th scope="col">Ngày nhập</th>
                                 <th scope="col">Tên kho hàng</th>
-                                <th scope="col">Thao tác</th>
+                                  <th scope="col" class="text-center" >Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -388,7 +388,6 @@
                                 while($rowNH = $resultNH->fetch_assoc()){
                                     echo "<tr>";
                                     echo " <th scope='row'>$i</th>";
-       
                                     echo " <td> ". $rowNH['SP_TEN'] ." </td>";
                                     echo " <td> ". $rowNH['M_TEN'] ." </td>";
                                     echo " <td> ". $rowNH['S_TEN'] ." </td>";

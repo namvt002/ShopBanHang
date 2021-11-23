@@ -44,6 +44,32 @@
         header("Location:./login.php");
     }
 
+    
+    $sql ="SELECT * FROM san_pham" ;
+    $result = $con->query($sql);      
+
+    if(isset($_POST['submit-add'])){
+        $tenSp = $_POST['name_product'];
+        $details = $_POST['details'];
+
+        $sqlDetails = "INSERT INTO `san_pham`( `SP_CT`) VALUES ('$details') WHERE SP_MA = $tenSp ";
+
+        if($con->query($sqlDetails) === TRUE){
+            echo "<script type='text/javascript'>
+                        alert('Thêm sản phẩm thành công!');
+                        document.location='dashboard-product-details.php';
+                    </script>";
+        }else{
+            echo "<script type='text/javascript'>
+                        alert('Thêm sản phẩm không thành công!');
+                        document.location='dashboard-product-details.php';
+                    </script>";
+        }
+
+    }
+    
+
+
 
 ?>
 
@@ -210,7 +236,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-1 small" placeholder="Search " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
@@ -219,101 +245,39 @@
 
                             </div>
                         </form>
-
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-download fa-sm text-white-50"></i>Thêm chi tiết sản phẩm mới</button>
-
                     </div>
 
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm chi tiết sản phẩm mới</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên sản phẩm:</label>
-                                            <input type="text" name="name_product" class="form-control" placeholder="Nhập tên sản phẩm">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
-                                                <?php
-                                                    // while ($row = $result->fetch_assoc()) {
-                                                    //     echo " <option value=" . $row['LH_MA'] . ">";
-                                                    //     echo   $row['LH_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Chọn hình ảnh:</label>
-                                            <input type="file" name="imgProduct" class="form-control">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label>Nhà sản xuất</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Nha_San_Xuat">
-                                                <option value="">---Chọn loại nhà sản xuất---</option>
-                                                <?php
-                                               
-                                                    // while ($rowNSX = $resultNSX->fetch_assoc()) {
-                                                    //     echo " <option value=" . $rowNSX['NSX_MA'] . ">";
-                                                    //     echo   $rowNSX['NSX_TEN'];
-                                                    //     echo " </option>";
-                                                    // }
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Giá:</label>
-                                            <input type="text" name="price" class="form-control" placeholder="Nhập giá">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary" value="Thêm mới" name="submit-add">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <table class="table table-hover">
+                    <table class="table table-hover" >
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Chi tiết sản phẩm</th>
+                                <th scope="col" class="text-center" >Thao Tác</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                          
+                            <?php 
+                                $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA";
+                                $resultsp = $con->query($sqlsp);
+                                $i = 1;
+                                while($rowsp = $resultsp->fetch_assoc()){
+                                    echo "<tr>";
+                                    echo " <th scope='row'>$i</th>";
+                                    echo " <td class='col-2'> ". $rowsp['SP_TEN'] ." </td>";
+                                    echo"<td class='col-6'> <textarea  class='form-control'> ". $rowsp['SP_CT'] ." </textarea> </td>";
+                                    
+                                    // echo " <td class='col-8'> ". $rowsp['SP_CT'] ." </td>";           
+                                    echo " <td scope='row' class='text-center'> 
+                                    <a href='./dashboard-product-details-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                    </td>";
+
+                                    echo " </tr>";
+                                    $i++;
+                                }
+                             ?>
                         </tbody>
 
                     </table>
