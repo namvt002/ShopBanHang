@@ -114,11 +114,12 @@
                 <div class="container-fluid" style="margin-top:80px;">
                     <div class="row" style="padding-left: 10%; padding-right:10%;" >
                         <!-- <a id="details" id="details"> -->
+                      
                             <div class="col text-center" id="details-img" >
-                                <img src="./img/admin/<?php echo $rowDetails['SP_ANH']; ?>" class="rounded" style="width:20rem; margin-top:10px;">
+                                <img src="./img/admin/<?php echo $rowDetails['SP_ANH']; ?>" class="rounded" style="width:20rem; margin-top:30px;">
 
                             </div>
-                            <div class="col" style="padding: 80px;" id="details" >
+                            <div class="col" style="padding: 30px;" id="details" >
                                 <h4 class="pro-d-title">
                                     <a href="#" class="">
                                         <?php echo $rowDetails['SP_TEN']; ?>
@@ -131,14 +132,28 @@
                                     <span class="posted_in"> <strong>Loại sản phẩm:</strong> <?php echo $rowDetails['LH_TEN']; ?> </span>
                                 </div>
                                 <div class="m-bot15"> <strong>Giá : </strong> <span class="amount-old"> <?php echo $rowDetails['SP_GIA']; ?></span> <span class="pro-price"> VND</span></div>
-                                <div class="form-group">
-                                    <label>Số lượng</label>
-                                    <input style="width:150px;" type="number" class="form-control" name="qiantity" min="1" max="100">
-                                </div>
-                                <p>
                                 <form action="client-product-cart.php?id=<?php echo $rowDetails['SP_MA']; ?>" method="post">
+                                    
+                                    <label>Màu sắc: </label>
+                                    <div class="form-group">
+                                        
+                                        <input type="radio" name="color" aria-label="Checkbox for following text input" value="1" id=""> Màu đỏ</span>
+                                        
+                                    </div>
 
-                                    <input class="btn btn-round btn-danger" type="submit" name="add-to-card" value="Thêm vào giỏ hàng">
+                                    <label>Size: </label>
+                                    <div class="form-group">
+                                        
+                                        <input type="radio" name="size" aria-label="Checkbox for following text input" value="1" id=""> Màu đỏ</span>
+                                        
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label>Số lượng</label>
+                                        <input style="width:150px;" type="number" class="form-control" name="quantity" value="1" min="1" max="100">
+                                    </div>
+
+                                    <input class="btn btn-round btn-danger"  type="submit" name="add-to-card" value="Thêm vào giỏ hàng">
                                         <i class="fa fa-shopping-cart"></i>
                                     </input>
                                 </form>
