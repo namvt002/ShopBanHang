@@ -36,7 +36,7 @@
         if($result->num_rows > 0){
             $id = $result->fetch_assoc();
             session_start();
-            $_SESSION['USER_NAME'] = $id['KH_MA'];
+            $_SESSION['idkh'] = $id['KH_MA'];
             header('Location:./index.php');
         }else{
             $sql1 = "SELECT * FROM nhan_vien WHERE USER_NAME = '$username' AND PASSWORD=MD5('" . $password . "') AND level = '0'";

@@ -52,31 +52,37 @@
     
 
   
-    if(isset($_POST['submit-add'])){
-        $tenSp = $_POST['name_product'];
-        $LH = $_POST['Loai_Hang'];//loai san pham
-        $NSX = $_POST['Nha_San_Xuat'];
-        $Gia = $_POST['price'];
-        $CT = $_POST['details'];
-        $anh = $_FILES['imgProduct']['name'];
-        $tmp_anh = $_FILES['imgProduct']['tmp_name'];
+   try{
+        if(isset($_POST['submit-add'])){
+            $tenSp = $_POST['name_product'];
+            $LH = $_POST['Loai_Hang'];//loai san pham
+            $NSX = $_POST['Nha_San_Xuat'];
+            $Gia = $_POST['price'];
+            $CT = $_POST['details'];
+            $anh = $_FILES['imgProduct']['name'];
+            $tmp_anh = $_FILES['imgProduct']['tmp_name'];
 
-        $sqlSP = "INSERT INTO san_pham( `SP_TEN`, `SP_ANH`, `LH_MA`, `NSX_MA`, `SP_GIA`, `SP_CT `) VALUES ('$tenSp','$anh','$LH','$NSX','$Gia', '$CT')";
+            echo $CT;
+            
+            $sqlSP = "INSERT INTO `san_pham`(`SP_TEN`, `SP_ANH`, `LH_MA`, `NSX_MA`, `SP_GIA`, `SP_CT`) VALUES ('$tenSp','$anh','$LH','$NSX','$Gia','$CT')";
 
-        if($con->query($sqlSP) === TRUE){
-            move_uploaded_file($tmp_anh, "./img/admin/$anh");
-            echo "<script type='text/javascript'>
-                        alert('Thêm sản phẩm thành công!');
-                        document.location='dashboard-product.php';
-                    </script>";
-        }else{
-            echo "<script type='text/javascript'>
-                        alert('Thêm sản phẩm không thành công!');
-                        document.location='dashboard-product.php';
-                    </script>";
+            if($con->query($sqlSP) === TRUE){
+                move_uploaded_file($tmp_anh, "./img/admin/$anh");
+                echo "<script type='text/javascript'>
+                            alert('Thêm sản phẩm thành công!');
+                            document.location='dashboard-product.php';
+                        </script>";
+            }else{
+                echo "<script type='text/javascript'>
+                            alert('Thêm sản phẩm không thành công!');
+                            document.location='dashboard-product.php';
+                        </script>";
+            }
+
         }
-
-    }
+   }catch(Exception $e){
+       printf("$e->getMessage()");
+   }
 
 
 ?>
