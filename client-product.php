@@ -13,22 +13,21 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
     <style>
-        a:hover{
+        a:hover {
             text-decoration: none;
         }
-        .card:hover{
-            
-        box-shadow: 3px 5px 16px rgba(58, 99, 139, 0.692);
-        transform: translate(0px,-2px);
+
+        .card:hover {
+
+            box-shadow: 3px 5px 16px rgba(58, 99, 139, 0.692);
+            transform: translate(0px, -2px);
 
         }
     </style>
@@ -36,7 +35,7 @@
 </head>
 
 <?php
-    require_once "./database/database_connection.php";
+require_once "./database/database_connection.php";
 
 
 ?>
@@ -50,7 +49,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-          
+
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -69,16 +68,16 @@
                 Sản phẩm
             </div>
             <?php
-                $sqlLSP = "SELECT * FROM loai_san_pham";
-                $resultLSP = $con->query($sqlLSP);
-                while($rowLSP = $resultLSP->fetch_assoc()){
+            $sqlLSP = "SELECT * FROM loai_san_pham";
+            $resultLSP = $con->query($sqlLSP);
+            while ($rowLSP = $resultLSP->fetch_assoc()) {
             ?>
                 <li class="nav-item">
-                   <?php
-                        echo "<a class='nav-link' href='client-product.php?id=". $rowLSP['LH_MA'] ."'>";
-                   ?> 
-                        <i class="fas fa-fw fa-table"></i>
-                        <span><?php echo $rowLSP['LH_TEN'] ?></span></a>
+                    <?php
+                    echo "<a class='nav-link' href='client-product.php?id=" . $rowLSP['LH_MA'] . "'>";
+                    ?>
+                    <i class="fas fa-fw fa-table"></i>
+                    <span><?php echo $rowLSP['LH_TEN'] ?></span></a>
                 </li>
             <?php } ?>
 
@@ -90,31 +89,31 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-            
+
 
         </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column" >
+        <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
 
                 <!-- End of Topbar -->
-                
+
                 <!-- Topbar -->
-                
-        
+
+
                 <!-- /.container-fluid -->
                 <?php require 'header.php'; ?>
 
                 <?php
-                    // require_once "./database/database_connection.php";
-                    $sqlShowSP="SELECT * FROM san_pham";
-                    $resultShowSP = $con->query($sqlShowSP);
-                    
-                    echo"
+                // require_once "./database/database_connection.php";
+                $sqlShowSP = "SELECT * FROM san_pham";
+                $resultShowSP = $con->query($sqlShowSP);
+
+                echo "
                        
                         <div class='title' style='margin-top: 50px;margin-left: 20px;'>
                             <h2 style=' margin-left: 15px;' >Các sản phẩm của shop</h2>
@@ -122,25 +121,25 @@
                         </div>
                         <div class='row row-cols-auto' style=' margin-left: 15px;'>
                     ";
-                    while($rowShowSP = $resultShowSP->fetch_assoc()){
-                        echo "
+                while ($rowShowSP = $resultShowSP->fetch_assoc()) {
+                    echo "
                             <div class='col' style='padding: 10px; margin-left: 15px;'>
-                                <a href='client-product-details.php?id=". $rowShowSP['SP_MA'] ."'>
+                                <a href='client-product-details.php?id=" . $rowShowSP['SP_MA'] . "'>
                                     <div class='card' style='width: 18rem;'>
-                                        <img src='./img/admin/". $rowShowSP['SP_ANH'] ."' class='card-img-top'>
+                                        <img src='./img/admin/" . $rowShowSP['SP_ANH'] . "' class='card-img-top'>
                                         <div class='card-body'>
-                                            <h5 class='card-title'>". $rowShowSP['SP_TEN'] ."</h5>
-                                            <p class='card-text'>". $rowShowSP['SP_GIA'] ."<span> VND</span></p>
+                                            <h5 class='card-title'>" . $rowShowSP['SP_TEN'] . "</h5>
+                                            <p class='card-text'>" . $rowShowSP['SP_GIA'] . "<span> VND</span></p>
                                             <p  class='btn btn-primary btn-sm'>sale</p>
                                         </div>
                                     </div>
                                 </a>
                             </div>  
                         ";
-                    }    
-                    echo "  
-                    </div>";      
-                
+                }
+                echo "  
+                    </div>";
+
                 ?>
 
                 <!-- code in here -->.
@@ -153,9 +152,10 @@
         <!-- End of Content Wrapper -->
     </div>
 
+  
+
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -167,9 +167,9 @@
                 <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
                     <form action="" method="post">
-                       
-                            <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
-  
+
+                        <input type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+
                     </form>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>

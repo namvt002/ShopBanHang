@@ -13,9 +13,7 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -28,21 +26,23 @@
 <?php
     require_once "./database/database_connection.php";
     session_start();
-    if(!isset($_SESSION['admin'])){
+    if (!isset($_SESSION['admin'])) {
         header("Location:./login.php");
     }
 
     //session_start();
-    if(isset($_SESSION['admin'])){
+    if (isset($_SESSION['admin'])) {
         $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
         $result = $con->query($sql);
-        $row = $result->fetch_assoc();// tra ve mot dong ket qua
+        $row = $result->fetch_assoc(); // tra ve mot dong ket qua
     }
 
-    if(isset($_POST['logout'])){
+    if (isset($_POST['logout'])) {
         unset($_SESSION['admin']);
         header("Location:./login.php");
     }
+
+
 
 
 ?>
@@ -75,7 +75,12 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Thêm nhân viên</span></a>
+            </li>
+            <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface
@@ -85,7 +90,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Về trang chủ</span></a>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link" href="dashboard-order.php">
                     <i class="fas fa-fw fa-table"></i>
@@ -116,7 +121,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Khuyến mãi</span></a>
             </li>
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -124,9 +129,9 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-            
 
-            
+
+
 
         </ul>
         <!-- End of Sidebar -->
@@ -138,7 +143,7 @@
             <div id="content">
 
                 <!-- End of Topbar -->
-                
+
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -148,11 +153,9 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm"
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm" aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -166,18 +169,14 @@
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
                             <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -193,16 +192,13 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo $row['NV_TEN']; ?> </span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModel">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -225,7 +221,7 @@
                     </ul>
 
                 </nav>
-        
+
                 <!-- /.container-fluid -->
                 <?php require 'dashboard-home.php'; ?>
                 <!-- code in here -->.
@@ -247,9 +243,93 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <?php
+        $sqlAdmin = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+        $resultadmin = $con->query($sqlAdmin);
+        $rowAdmin = $resultadmin->fetch_assoc();
+    ?>
+
+    <!-- profile -->
+    <div class="modal fade" id="profileModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin cá nhân</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+
+                        <table class="table table-borderless">
+                           
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Tên tài khoản:</th>
+                                    <td><?php echo $rowAdmin['USER_NAME'] ?></td>
+                                   
+                                </tr>
+                                <tr>
+                                    <th scope="row">Họ và tên:</th>
+                                    <td><?php echo $rowAdmin['NV_TEN'] ?></td>
+                                </tr>
+                              
+
+                               
+                            </tbody>
+                        </table>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại:</label>
+                            <input type="text" class="form-control" name="phone" value="<?php echo $rowAdmin['NV_SDT']; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Địa chỉ Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $rowAdmin['NV_EMAIL']; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ:</label>
+                            <input type="text" class="form-control" name="address" value="<?php echo $rowAdmin['NV_DIACHI']; ?>">
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Cập nhật" name="update-profile">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
+                        </div>
+
+                    </form>
+                </div>
+                <?php
+
+                    if(isset($_POST['update-profile'])){
+                        $phone = $_POST['phone'];
+                        $email = $_POST['email'];  
+                        $address = $_POST['address'];
+                        $sqlUpdate = "UPDATE `nhan_vien` SET `NV_EMAIL`='$email',`NV_SDT`='$phone',`NV_DIACHI`='$address' WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+                        if($con->query($sqlUpdate)  === TRUE){
+                            echo "<script type='text/javascript'>
+                            alert('Cập nhật thành công!');
+                          
+                        </script>";
+                        }else{
+                            echo "<script type='text/javascript'>
+                            alert('Cập nhật không thành công!');
+                          
+                            </script>";
+                        }
+                    }
+                               
+                ?>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -261,9 +341,9 @@
                 <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
                     <form action="" method="post">
-                       
-                            <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
-  
+
+                        <input type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+
                     </form>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>

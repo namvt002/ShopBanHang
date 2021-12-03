@@ -205,9 +205,9 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModel">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                   Hồ sơ
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -334,6 +334,90 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+     <!-- profile -->
+
+     <?php
+        $sqlAdmin = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+        $resultadmin = $con->query($sqlAdmin);
+        $rowAdmin = $resultadmin->fetch_assoc();
+    ?>
+     <div class="modal fade" id="profileModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin cá nhân</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+
+                        <table class="table table-borderless">
+                           
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Tên tài khoản:</th>
+                                    <td><?php echo $rowAdmin['USER_NAME'] ?></td>
+                                   
+                                </tr>
+                                <tr>
+                                    <th scope="row">Họ và tên:</th>
+                                    <td><?php echo $rowAdmin['NV_TEN'] ?></td>
+                                </tr>
+                              
+
+                               
+                            </tbody>
+                        </table>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại:</label>
+                            <input type="text" class="form-control" name="phone" value="<?php echo $rowAdmin['NV_SDT']; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Địa chỉ Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $rowAdmin['NV_EMAIL']; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ:</label>
+                            <input type="text" class="form-control" name="address" value="<?php echo $rowAdmin['NV_DIACHI']; ?>">
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Cập nhật" name="update-profile">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
+                        </div>
+
+                    </form>
+                </div>
+                <?php
+
+                    if(isset($_POST['update-profile'])){
+                        $phone = $_POST['phone'];
+                        $email = $_POST['email'];  
+                        $address = $_POST['address'];
+                        $sqlUpdate = "UPDATE `nhan_vien` SET `NV_EMAIL`='$email',`NV_SDT`='$phone',`NV_DIACHI`='$address' WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+                        if($con->query($sqlUpdate)  === TRUE){
+                            echo "<script type='text/javascript'>
+                            alert('Cập nhật thành công!');
+                          
+                        </script>";
+                        }else{
+                            echo "<script type='text/javascript'>
+                            alert('Cập nhật không thành công!');
+                          
+                            </script>";
+                        }
+                    }
+                               
+                ?>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
