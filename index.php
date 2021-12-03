@@ -75,40 +75,40 @@
             </article>
             <!-- info -->
             <article class="gift-info">
-                <h3>Giveaway Covid</h3>
+                <h3>Giveaway mùa covid</h3>
                 <h4 class="giveaway">
-                    Giveaway on Sunday, 30 september 2021, 23:59PM
+                    Giveaway mùa đông, 30-12-2021, 23:59PM
                 </h4>
                 <p id="paragraph">
-                    #Win one of FOUR gift certificates to 9thandElm.com, a site devoted to handmade fashion items from amazing designers! $200 for one winner, $100 each to two winners! #giveaway via @simplystacienet ENDS…
+                # Hãy tham gia chương trình khuyến mãi mùa đông, một trang web dành cho các mặt hàng thời trang từ các nhà thiết kế tuyệt vời! 200$ cho một người chiến thắng, 100 đô la mỗi người cho hai người chiến thắng! #giveaway qua A&T.vn
                 </p>
                 <div class="deadline">
 
                     <div class="deadline-format">
                         <div>
                             <h4 class="days" class="giveaway1">20</h4>
-                            <span>days</span>
+                            <span>Ngày</span>
                         </div>
                     </div>
 
                     <div class="deadline-format">
                         <div>
                             <h4 class="hours" class="giveaway1">50</h4>
-                            <span>hours</span>
+                            <span>Giờ</span>
                         </div>
                     </div>
 
                     <div class="deadline-format">
                         <div>
                             <h4 class="minutes" class="giveaway1">30</h4>
-                            <span>mins</span>
+                            <span>phút</span>
                         </div>
                     </div>
 
                     <div class="deadline-format">
                         <div>
                             <h4 class="seconds">20</h4>
-                            <span>secs</span>
+                            <span>giây</span>
                         </div>
                     </div>
 
@@ -123,9 +123,9 @@
     <div class="container" id="aboutClient">
         <section class="sectionAbout">
             <div class="title">
-                <h2>About A&T</h2>
+                <h2>Giới thiệu A&T</h2>
                 <p>
-                    You are my everything
+                   Khách hàng là tất cả
                 </p>
             </div>
 
@@ -136,56 +136,39 @@
                 <article class="about">
                     <!-- btn container -->
                     <div class="btn-container">
-                        <button class="tab-btn active" data-id="history">history</button>
-                        <button class="tab-btn" data-id="vision">vision</button>
-                        <button class="tab-btn" data-id="goals">goals</button>
+                        <button class="tab-btn active" data-id="history">Nhà A&T</button>
+                        <button class="tab-btn" data-id="vision">Giá trị</button>
+                        <button class="tab-btn" data-id="goals">Mục đích</button>
                     </div>
                     <div class="about-content">
                         <!-- single item -->
                         <div class="content active" id="history">
-                            <h4>History</h4>
+                            <h4>A$T - NHÀ CỦA GU</h4>
                             <p>
-                                I'm baby wolf pickled schlitz try-hard normcore marfa man bun
-                                mumblecore vice pop-up XOXO lomo kombucha glossier bicycle
-                                rights. Umami kinfolk salvia jean shorts offal venmo. Knausgaard
-                                tilde try-hard, woke fixie banjo man bun. Small batch tumeric
-                                mustache tbh wayfarers 8-bit shaman chartreuse tacos. Viral
-                                direct trade hoodie ugh chambray, craft beer pork belly flannel
-                                tacos single-origin coffee art party migas plaid pop-up.
-                                tacos single-origin coffee art party migas plaid pop-up.
-                                tacos single-origin coffee art party migas plaid pop-up.
+                                Streetwear của giới trẻ Việt đang phát triển không ngừng và ngày càng khó tính hơn, kiểu cách hơn...<br>
+                                Theo xu hướng, AT.VN đang có những bước chuyển mình đầy táo bạo...<br>
+                                ĐA DẠNG CÁC GU THỜI TRANG chính là phong cách hiện tại của YaMe.vn<br>
+                                Đến với A&T, sẽ đáp ứng mọi nhu cầu thời trang hàng ngày cho bạn:  ĐI HỌC, ĐI CHƠI, ĐI LÀM, DU LỊCH, DẠO PHỐ, TIỆC TÙNG, THỂ THAO
+                                
                             </p>
                         </div>
                         <!-- end of single item -->
                         <!-- single item -->
                         <div class="content" id="vision">
-                            <h4>Vision</h4>
+                            <h4>Giá trị</h4>
                             <p>
-                                Man bun PBR&B keytar copper mug prism, hell of helvetica. Synth
-                                crucifix offal deep v hella biodiesel. Church-key listicle
-                                polaroid put a bird on it chillwave palo santo enamel pin,
-                                tattooed meggings franzen la croix cray. Retro yr aesthetic four
-                                loko tbh helvetica air plant, neutra palo santo tofu mumblecore.
-                                Hoodie bushwick pour-over jean shorts chartreuse shabby chic.
-                                Roof party hammock master cleanse pop-up truffaut, bicycle
-                                rights skateboard affogato readymade sustainable deep v
-                                live-edge schlitz narwhal.
+                            Không mãi chạy theo xu hướng, đánh mất mình. YaMe vẫn luôn giữ những giá trị đã xây đựng và phát triền bao lâu nay, những điểm nổi bật đã mang khách hàng đến với YaMe trong suốt thời gian qua:<br>
+                            Bên cạnh những sản phẩm đầu tư và “chất chơi” kén người mặt, YaMe vẫn ra mắt đều đặn những thiết kế casual với mức giá tuyệt vời dành cho sinh viên
+                            <br><br>
                             </p>
                         </div>
                         <!-- end of single item -->
                         <!-- single item -->
                         <div class="content" id="goals">
-                            <h4>Goals</h4>
+                            <h4>Mục đích</h4>
                             <p>
-                                Chambray authentic truffaut, kickstarter brunch taxidermy vape
-                                heirloom four dollar toast raclette shoreditch church-key.
-                                Poutine etsy tote bag, cred fingerstache leggings cornhole
-                                everyday carry blog gastropub. Brunch biodiesel sartorial mlkshk
-                                swag, mixtape hashtag marfa readymade direct trade man braid
-                                cold-pressed roof party. Small batch adaptogen coloring book
-                                heirloom. Letterpress food truck hammock literally hell of wolf
-                                beard adaptogen everyday carry. Dreamcatcher pitchfork yuccie,
-                                banh mi salvia venmo photo booth quinoa chicharrones.
+                            Sự và thuận tiện trong mua sắm cho các bạn trẻ là mối quan tâm hàng đầu mà A&T đặt ra, với lối trưng bày theo phong cách "factory" mạnh mẽ, lôi cuốn và gần gũi, A&T mang lại một không gian trải nghiệm tuyệt vời cho các bạn trẻ.
+                            <br><br><br><br>
                             </p>
                         </div>
                         <!-- end of single item -->
@@ -194,10 +177,8 @@
             </div>
         </section>
     </div>
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
+    
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -221,6 +202,7 @@
             </div>
         </div>
     </div>
+    
 
 
     <?php require "footer.php"; ?>

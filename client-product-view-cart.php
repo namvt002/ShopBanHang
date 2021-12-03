@@ -128,9 +128,11 @@
                                 <th scope="col">STT</th>
                                 <th scope="col">Ảnh sản phẩm</th>
                                 <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Màu</th>
+                                <th scope="col">Size</th>
                                 <th scope="col">Số lượng</th>
                                 <th scope="col">Đơn giá</th>
-                                <!-- <th scope="col">Giá</th> -->
+                                <th scope="col">Thành tiền</th>
                                 <th scope="col" class="text-center">Thao Tác</th>
 
                             </tr>
@@ -142,17 +144,23 @@
                                     <td><?php echo $i++; ?></td>
                                     <td><img src="./img/admin/<?php echo $value['image']; ?>" alt="" width="100px;"></td>
                                     <td><?php echo $value['name']; ?></td>
+                                    <td><?php echo $value['colorName']; ?></td>
+                                    <td><?php echo $value['sizeName']; ?></td>
+
                                     <td> 
                                         <form action="client-product-cart.php">
                                             <input type="hidden" name="id" value="<?php echo $value['id']; ?>">
-                                            <input type="number" name="quantity" id="" value="<?php echo $value['quantity']; ?>" style="width: 100px;">
+                                            <input type="number" name="quantity" id="" value="<?php echo $value['quantity']; ?>" style="width: 70px;">
                                             <input type="submit" class="btn btn-primary"  name="update" value="Cập nhật">
                                         </form>
                                       
                                     </td>
 
-                                    <td class="text-center"><?php echo $value['price']* $value['quantity']; ?></td>
+                                    <td class="text-center"><?php echo number_format($value['price']); ?></td>
+                                    <td class="text-center"><?php echo number_format($value['price']* $value['quantity']) ; ?></td>
+                                    
                                     <td><a href="client-product-cart.php?id=<?php echo $value['id']; ?>&action=delete" class="btn btn-primary">Xóa</a></td>
+
                                 </tr>
                             <?php endforeach; ?>
                            
@@ -162,7 +170,7 @@
                     </table>
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Thông tin chi tiết</h3>
+                            <a href="./client-check-out.php"  class="btn btn-primary">Thanh toán</a>
                         </div>
                         <div class="panel-body deess">
 

@@ -1,0 +1,21 @@
+ .color {
+     margin: 10px;
+     padding-right: 5px;
+ }
+ 
+ .size {
+     margin: 10px;
+     padding-right: 5px;
+ }
+ 
+ .size:hover {
+     cursor: pointer;
+ }
+ 
+ .spanSize {
+     padding-right: 20px;
+ }
+ 
+ .color:hover {
+     cursor: pointer;
+ }

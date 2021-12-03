@@ -108,6 +108,12 @@
             </div>
 
             <li class="nav-item">
+                <a class="nav-link" href="index.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Về trang chủ</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="dashboard-order.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Đơn hàng</span></a>

@@ -80,6 +80,11 @@
             <div class="sidebar-heading">
                 Interface
             </div>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Về trang chủ</span></a>
+            </li>
             
             <li class="nav-item">
                 <a class="nav-link" href="dashboard-order.php">
@@ -111,6 +116,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Khuyến mãi</span></a>
             </li>
+           
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -118,6 +124,7 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+            
 
             
 
@@ -144,7 +151,7 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search "
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm"
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">

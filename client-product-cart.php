@@ -42,6 +42,17 @@
             </script>";
         }else{
             $quantity = (isset($_POST['quantity'])) ? $_POST['quantity'] : 1 ;
+            $color =  (isset($_POST['color'])) ? $_POST['color'] : 1 ;
+            $size =  (isset($_POST['size'])) ? $_POST['size'] : 1 ;
+
+            $sqlColor = "SELECT * FROM mau WHERE M_MA = $color";
+            $resultColor = $con->query($sqlColor);
+            $rowColor = $resultColor->fetch_assoc();
+
+            $sqlSize = "SELECT * FROM size WHERE S_MA = $size";
+            $resultSize= $con->query($sqlSize);
+            $rowSize = $resultSize->fetch_assoc();
+            
             $id = $_GET["id"];
             $sql = "SELECT * FROM san_pham where SP_MA = $id";
             $result = $con->query($sql);
@@ -53,6 +64,10 @@
                 'name' => $product['SP_TEN'],
                 'image' => $product['SP_ANH'],
                 'price' => $product['SP_GIA'],
+                'color' => $color,
+                'size' => $size,
+                'colorName' => $rowColor['M_TEN'],
+                'sizeName' => $rowSize['S_TEN'],
                 'quantity' => $quantity,
             ];
                 

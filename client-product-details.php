@@ -17,6 +17,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/client-product-details.css"   rel="stylesheet">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 
 
@@ -135,16 +136,40 @@
                                 <form action="client-product-cart.php?id=<?php echo $rowDetails['SP_MA']; ?>" method="post">
                                     
                                     <label>Màu sắc: </label>
+                                    <?php
+                                        $sqlColor = "SELECT * FROM mau";
+                                        $resultColor = $con->query($sqlColor);
+                                    ?>
                                     <div class="form-group">
-                                        
-                                        <input type="radio" name="color" aria-label="Checkbox for following text input" value="1" id=""> Màu đỏ</span>
-                                        
+                                        <?php
+                                             while ($rowColor = $resultColor->fetch_assoc()) {
+                                                echo " 
+                                                <input type='radio' name='color' class='color' aria-label='Checkbox for following text input' value=".
+                                                $rowColor['M_MA'] .">
+                                                <span> ". $rowColor['M_TEN'] ." </span>
+                                                ";
+                                             }
+                                        ?>
+
                                     </div>
 
                                     <label>Size: </label>
                                     <div class="form-group">
-                                        
-                                        <input type="radio" name="size" aria-label="Checkbox for following text input" value="1" id=""> Màu đỏ</span>
+
+                                        <?php
+                                            $sqlSize = "SELECT * FROM size";
+                                            $resultSize = $con->query($sqlSize);
+                                        ?>
+                                          <?php
+                                             while ($rowSize = $resultSize->fetch_assoc()) {
+                                                echo " 
+                                                <input type='radio' name='size' class='size' aria-label='Checkbox for following text input' value=".
+                                                $rowSize['S_MA'] .">
+                                                <span class='spanSize'> ". $rowSize['S_TEN'] ." </span>
+                                                ";
+                                             }
+                                        ?>
+
                                         
                                     </div>
                                 

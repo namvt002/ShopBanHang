@@ -1,4 +1,3 @@
-
 const months = [
     'January',
     'February',
@@ -12,8 +11,8 @@ const months = [
     'October',
     'November',
     'December',
-  ];
-  const weekdays = [
+];
+const weekdays = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -21,34 +20,35 @@ const months = [
     'Thursday',
     'Friday',
     'Saturday',
-  ];
-  const giveaway = document.querySelector('.giveaway');
-  const deadline = document.querySelector('.deadline');
-  const items = document.querySelectorAll('.deadline-format h4');
-  
-  let tempDate = new Date();
-  let tempYear = tempDate.getFullYear();
-  let tempMonth = tempDate.getMonth();
-  let tempDay = tempDate.getDate();
-  // months are ZERO index based;
-  const futureDate = new Date(tempYear, tempMonth, tempDay + 10, 11, 30, 0);
-  
-  // let futureDate = new Date(2020, 3, 24, 11, 30, 0);
-  
-  const year = futureDate.getFullYear();
-  const hours = futureDate.getHours();
-  const minutes = futureDate.getMinutes();
-  
-  let month = futureDate.getMonth();
-  month = months[month];
-  const weekday = weekdays[futureDate.getDay()];
-  const date = futureDate.getDate();
-  giveaway.textContent = `giveaway ends on ${weekday}, ${date} ${month} ${year} ${hours}:${minutes}am`;
-  
-  const futureTime = futureDate.getTime();
-  function getRemaindingTime() {
+];
+const giveaway = document.querySelector('.giveaway');
+const deadline = document.querySelector('.deadline');
+const items = document.querySelectorAll('.deadline-format h4');
+
+let tempDate = new Date();
+let tempYear = tempDate.getFullYear();
+let tempMonth = tempDate.getMonth();
+let tempDay = tempDate.getDate();
+// months are ZERO index based;
+const futureDate = new Date(tempYear, tempMonth, tempDay + 10, 11, 30, 0);
+
+// let futureDate = new Date(2020, 3, 24, 11, 30, 0);
+
+const year = futureDate.getFullYear();
+const hours = futureDate.getHours();
+const minutes = futureDate.getMinutes();
+
+let month = futureDate.getMonth();
+month = months[month];
+const weekday = weekdays[futureDate.getDay()];
+const date = futureDate.getDate();
+// giveaway.textContent = `Khuyễn mãi kết thúc lúc ${weekday}, ${date} ${month} ${year} ${hours}:${minutes}am`;
+
+const futureTime = futureDate.getTime();
+
+function getRemaindingTime() {
     const today = new Date().getTime();
-  
+
     const t = futureTime - today;
     // 1s = 1000ms
     // 1m = 60s
@@ -64,31 +64,32 @@ const months = [
     let hours = Math.floor((t % oneDay) / oneHour);
     let minutes = Math.floor((t % oneHour) / oneMinute);
     let seconds = Math.floor((t % oneMinute) / 1000);
-  
+
     // set values array
     const values = [days, hours, minutes, seconds];
-    function format(item) {
-      if (item < 10) {
-        return (item = `0${item}`);
-      }
-      return item;
-    }
-  
-    items.forEach(function (item, index) {
-      item.innerHTML = format(values[index]);
-    });
-  
-    if (t < 0) {
-      clearInterval(countdown);
-      deadline.innerHTML = `<h4 class="expired">sorry, this giveaway has expired!</h4>`;
-    }
-  }
-  // countdown;
-  let countdown = setInterval(getRemaindingTime, 1000);
-  //set initial values
-  getRemaindingTime();
 
-  
+    function format(item) {
+        if (item < 10) {
+            return (item = `0${item}`);
+        }
+        return item;
+    }
+
+    items.forEach(function(item, index) {
+        item.innerHTML = format(values[index]);
+    });
+
+    if (t < 0) {
+        clearInterval(countdown);
+        deadline.innerHTML = `<h4 class="expired">Xin lỗi khuyến mãi đã hết hạn!</h4>`;
+    }
+}
+// countdown;
+let countdown = setInterval(getRemaindingTime, 1000);
+//set initial values
+getRemaindingTime();
+
+
 
 //   about
 
@@ -96,19 +97,19 @@ const months = [
 const about = document.querySelector(".about");
 const btns = document.querySelectorAll(".tab-btn");
 const articles = document.querySelectorAll(".content");
-about.addEventListener("click", function (e) {
-  const id = e.target.dataset.id;
-  if (id) {
-    // remove selected from other buttons
-    btns.forEach(function (btn) {
-      btn.classList.remove("active");
-    });
-    e.target.classList.add("active");
-    // hide other articles
-    articles.forEach(function (article) {
-      article.classList.remove("active");
-    });
-    const element = document.getElementById(id);
-    element.classList.add("active");
-  }
+about.addEventListener("click", function(e) {
+    const id = e.target.dataset.id;
+    if (id) {
+        // remove selected from other buttons
+        btns.forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+        e.target.classList.add("active");
+        // hide other articles
+        articles.forEach(function(article) {
+            article.classList.remove("active");
+        });
+        const element = document.getElementById(id);
+        element.classList.add("active");
+    }
 });
