@@ -104,6 +104,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Thêm nhân viên</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-client-view.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Khách hàng</span></a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -243,7 +248,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                 <input type="text" name="search" class="form-control bg-light border-1 small" placeholder="Tìm kiếm tên nhân viên" aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" name="search" class="form-control bg-light border-1 small" placeholder="Tìm kiếm tên khách hàng" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit" name="submitSearch">
                                         <i class="fas fa-search fa-sm"></i>

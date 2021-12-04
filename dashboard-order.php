@@ -70,11 +70,24 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index-admin.php   ">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Quản lý thống kê</span></a>
+            </li>
+            
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-staff-add.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Thêm nhân viên</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-client-view.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Khách hàng</span></a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+            
 
             <!-- Heading -->
             <div class="sidebar-heading">

@@ -80,6 +80,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Thêm nhân viên</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-client-view.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Khách hàng</span></a>
+            </li>
             <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">

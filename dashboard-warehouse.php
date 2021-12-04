@@ -95,7 +95,19 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index-admin.php   ">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Quản lý thống kê</span></a>
+            </li>
+
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-staff-add.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Thêm nhân viên</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-client-view.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Khách hàng</span></a>
             </li>
 
             <!-- Divider -->
@@ -209,18 +221,15 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                    Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
+                               
+                                <a class="dropdown-item" href="login.php">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Đăng nhập
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Đăng xuất
                                 </a>
                             </div>
                         </li>
