@@ -157,8 +157,8 @@
                         <div class="content" id="vision">
                             <h4>Giá trị</h4>
                             <p>
-                            Không mãi chạy theo xu hướng, đánh mất mình. YaMe vẫn luôn giữ những giá trị đã xây đựng và phát triền bao lâu nay, những điểm nổi bật đã mang khách hàng đến với YaMe trong suốt thời gian qua:<br>
-                            Bên cạnh những sản phẩm đầu tư và “chất chơi” kén người mặt, YaMe vẫn ra mắt đều đặn những thiết kế casual với mức giá tuyệt vời dành cho sinh viên
+                            Không mãi chạy theo xu hướng, đánh mất mình. A&T vẫn luôn giữ những giá trị đã xây đựng và phát triền bao lâu nay, những điểm nổi bật đã mang khách hàng đến với YaMe trong suốt thời gian qua:<br>
+                            Bên cạnh những sản phẩm đầu tư và “chất chơi” kén người mặt, A&T vẫn ra mắt đều đặn những thiết kế casual với mức giá tuyệt vời dành cho sinh viên
                             <br><br>
                             </p>
                         </div>

@@ -18,31 +18,55 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 
 </head>
 
+
 <?php
     require_once "./database/database_connection.php";
     session_start();
-    if (!isset($_SESSION['admin'])) {
+    if(!isset($_SESSION['admin'])){
         header("Location:./login.php");
     }
 
     //session_start();
-    if (isset($_SESSION['admin'])) {
+    if(isset($_SESSION['admin'])){
         $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
         $result = $con->query($sql);
-        $row = $result->fetch_assoc(); // tra ve mot dong ket qua
+        $row = $result->fetch_assoc();// tra ve mot dong ket qua
     }
 
-    if (isset($_POST['logout'])) {
+    if(isset($_POST['logout'])){
         unset($_SESSION['admin']);
         header("Location:./login.php");
     }
 
+   
 
+
+    // if(isset($_POST['submit-add'])){
+    //     $ten = $_POST['name_warehouse'];
+    //     $DC = $_POST['address'];
+
+    //     $sqlKho = "INSERT INTO kho_hang(K_TEN, K_DIACHI) VALUES ('$ten','$DC')";
+
+    //     if($con->query($sqlKho) === TRUE){
+
+    //         echo "<script type='text/javascript'>
+    //                     alert('Thêm kho mới thành công!');
+    //                     document.location='dashboard-warehouse.php';
+    //                 </script>";
+    //     }else{
+    //         echo "<script type='text/javascript'>
+    //                     alert('Thêm kho không thành công!');
+    //                     document.location='dashboard-warehouse.php';
+    //                 </script>";
+    //     }
+
+    // }
 
 
 ?>
@@ -66,21 +90,23 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+            
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index-admin.php">
+                <a class="nav-link" href="index-admin.php   ">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Quản lý thống kê</span></a>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="dashboard-staff-add.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Thêm nhân viên</span></a>
             </li>
+            <!-- Divider -->
             <hr class="sidebar-divider">
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface
@@ -121,7 +147,6 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Khuyến mãi</span></a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -129,7 +154,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
 
 
 
@@ -152,17 +176,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Tìm kiếm" aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -200,20 +213,17 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModel">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                   Hồ sơ
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
+                              
+                                <a class="dropdown-item" href="login.php">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Đăng nhập
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Đăng xuất
                                 </a>
                             </div>
                         </li>
@@ -223,9 +233,164 @@
                 </nav>
 
                 <!-- /.container-fluid -->
-                <?php require 'dashboard-home.php'; ?>
-                <!-- code in here -->.
 
+                <!-- code in here -->.
+                <div class="container-fluid">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Nhân viên</h1>
+
+                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <form method="post" action="">
+                            <div class="input-group">
+                                 <input type="text" name="search" class="form-control bg-light border-1 small" placeholder="Tìm kiếm tên nhân viên" aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" name="submitSearch">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-download fa-sm text-white-50"></i>Thêm mới nhân viên</button>
+
+                    </div>
+
+                    <?php
+                                            
+                        if (isset($_POST['submit-add'])) {
+                            $firstLastName = $_POST['firstLastName'];
+                            $username = $_POST['username'];
+                            $password = $_POST['password'];
+                            $email = $_POST['email'];
+                            $phone = $_POST['phone'];
+                            $address = $_POST['address'];
+
+                            $sqladd = "INSERT INTO nhan_vien (USER_NAME, PASSWORD, NV_TEN, NV_DIACHI, NV_SDT, NV_EMAIL, level )
+                                VALUES ('$username', MD5('" . $password . "'), '$firstLastName', '$address', '$phone', '$email', '0' )";
+
+                            if (!$con->query($sqladd) === TRUE) {
+                                echo "<script type='text/javascript'>
+                                    alert('Thêm mới nhân viên không thành công!');
+                                    document.location='dashboard-staff-add.php'
+                                </script>";
+                            } else {
+                                echo "<script type='text/javascript'>
+                                                alert('Thêm mới nhân viên thành công!');
+                                                document.location='./dashboard-staff-add.php';
+                                </script>";
+                            }
+                        }
+                    
+                    ?>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới nhân viên</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <input type="type" class="form-control form-control-user" name="firstLastName" placeholder="Nhập họ và tên" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="type" class="form-control form-control-user" name="username" placeholder="Nhập tên đăng nhập" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user" name="password" placeholder="Nhập nhập khẩu" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user" name="re-password" placeholder="Nhập lại nhập khẩu" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user" name="email" placeholder="Nhập email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="type" class="form-control form-control-user" name="phone" placeholder="Nhập số điện thoại" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="type" class="form-control form-control-user" name="address" placeholder="Nhập địa chỉ" required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" name="submit-add" class="btn btn-primary" value="Thêm mới" >
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        </div>
+
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên nhân viên</th>
+                                <th scope="col">Tên đăng nhập</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Địa chỉ</th>
+                                  <th scope="col" class="text-center" >Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                            <?php
+                                
+                                if(isset($_POST['submitSearch'])){
+                                    // $name = $_POST['search'];
+                                    $sqlNV = "SELECT * FROM nhan_vien WHERE `NV_TEN` LIKE '%" . $_POST['search'] . "%'";
+                                    $resultNV = $con->query($sqlNV);
+                                    $i = 1;
+                                    while($rowNV = $resultNV->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td > ". $rowNV['NV_TEN'] ." </td>";
+                                        echo " <td > ". $rowNV['USER_NAME'] ." </td>";
+                                        echo " <td > ". $rowNV['NV_EMAIL'] ." </td>";
+                                        echo " <td > ". $rowNV['NV_SDT'] ." </td>";
+                                        echo " <td > ". $rowNV['NV_DIACHI'] ." </td>";
+                                      
+                                        echo " <td scope='row' class='text-center'>
+                                            <a href='./dashboard-staff-edit.php?id=". $rowNV['NV_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                            <a href='./dashboard-staff-delete.php?id=". $rowNV['NV_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+                                }else{
+                                    $sqlNV = "SELECT * FROM nhan_vien";
+                                    $resultNV = $con->query($sqlNV);
+                                    $i = 1;
+                                    while($rowNV = $resultNV->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td > ". $rowNV['NV_TEN'] ." </td>";
+                                        echo " <td > ". $rowNV['USER_NAME'] ." </td>";
+                                        echo " <td > ". $rowNV['NV_EMAIL'] ." </td>";
+                                        echo " <td > ". $rowNV['NV_SDT'] ." </td>";
+                                        echo " <td > ". $rowNV['NV_DIACHI'] ." </td>";
+                                      
+                                        echo " <td scope='row' class='text-center'>
+                                            <a href='./dashboard-staff-edit.php?id=". $rowNV['NV_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                            <a href='./dashboard-staff-delete.php?id=". $rowNV['NV_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+                                }
+                               
+                              
+                            ?>
+                        </tbody>
+
+                    </table>
+                </div>
                 <!--  -->
 
             </div>
@@ -242,15 +407,14 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+     <!-- profile -->
 
-    <?php
+     <?php
         $sqlAdmin = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
         $resultadmin = $con->query($sqlAdmin);
         $rowAdmin = $resultadmin->fetch_assoc();
     ?>
-
-    <!-- profile -->
-    <div class="modal fade" id="profileModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal fade" id="profileModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -341,9 +505,7 @@
                 <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
                     <form action="" method="post">
-
-                        <input type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
-
+                       <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
                     </form>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>
