@@ -123,9 +123,51 @@
             <div id="content">
 
                 <form action="" method="post">
+                  
                     <div class="container-fluid" style="margin-top: 80px;">
+                    <h3 style="margin-bottom: 50px;">Xác nhận thanh toán</h3>
                         <div class="row">
-                            <div class="col-lg-8">
+                        
+                            
+                            <div class="col-lg-4" style = "border: 1px solid #ccc; padding:20px">
+                                <?php
+                                    $sqlCO = "SELECT * FROM khach_hang WHERE KH_MA = '" . $_SESSION['idkh'] . "'";
+                                    $resultCO = $con->query($sqlCO);
+                                    $rowCO = $resultCO->fetch_assoc(); // tra ve mot dong ket qua
+                                ?>
+                            
+                                <div class="mb-3">
+                                    <label  class="form-label">Tên người nhận:</label>
+                                    <input type="text" class="form-control" id="name" name="nameNN" value="<?php echo $rowCO['KH_TEN']; ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <labelclass="form-label">Số điện thoại:</label>
+                                    <input type="text" class="form-control" id="phone" name = "phoneNN"  value="<?php echo $rowCO['KH_SDT']; ?>">
+                                </div> 
+                                <div class="mb-3">
+                                    <label  class="form-label">Địa chỉ:</label>
+                                    <input type="text" class="form-control" name="address" value="<?php echo $rowCO['KH_DIACHI']; ?>">
+                                </div>
+                            
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Hình thức thanh toán:</label>
+                                    <select class="form-select" aria-label="Default select example" name="HTTT">
+                                        <option value="">Chọn hình thức thanh toán</option>
+                                        <?php
+                                            $sqlHT = "SELECT * FROM `hinh_thuc_thanh_toan`";
+                                            $resultHT= $con->query($sqlHT);
+                                            while ($rowHT = $resultHT->fetch_assoc()) {
+                                                echo " <option value=" . $rowHT['HTTT_MA'] . ">";
+                                                echo   $rowHT['HTTT_TEN'];
+                                                echo " </option>";
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-8" style = "border: 1px solid #ccc;">
 
                                 <table class="table table-hover">
                                     <thead>
@@ -181,46 +223,6 @@
                                 </div>
 
                             
-                            </div>
-                            <div class="col-lg-4">
-                                <?php
-                                    $sqlCO = "SELECT * FROM khach_hang WHERE KH_MA = '" . $_SESSION['idkh'] . "'";
-                                    $resultCO = $con->query($sqlCO);
-                                    $rowCO = $resultCO->fetch_assoc(); // tra ve mot dong ket qua
-                                ?>
-                              
-                                    <div class="mb-3">
-                                        <label  class="form-label">Tên người nhận:</label>
-                                        <input type="text" class="form-control" id="name" name="nameNN" value="<?php echo $rowCO['KH_TEN']; ?>">
-                                    </div>
-                                    <div class="mb-3">
-                                        <labelclass="form-label">Số điện thoại:</label>
-                                        <input type="text" class="form-control" id="phone" name = "phoneNN"  value="<?php echo $rowCO['KH_SDT']; ?>">
-                                    </div> 
-                                    <div class="mb-3">
-                                        <label  class="form-label">Địa chỉ:</label>
-                                        <input type="text" class="form-control" name="address" value="<?php echo $rowCO['KH_DIACHI']; ?>">
-                                    </div>
-                                
-                                    <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Hình thức thanh toán:</label>
-                                        <select class="form-select" aria-label="Default select example" name="HTTT">
-                                            <option value="">Chọn hình thức thanh toán</option>
-                                            <?php
-                                                $sqlHT = "SELECT * FROM `hinh_thuc_thanh_toan`";
-                                                $resultHT= $con->query($sqlHT);
-                                                while ($rowHT = $resultHT->fetch_assoc()) {
-                                                    echo " <option value=" . $rowHT['HTTT_MA'] . ">";
-                                                    echo   $rowHT['HTTT_TEN'];
-                                                    echo " </option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                
-                                
-                                
-                                
                             </div>
                         </div>
                             

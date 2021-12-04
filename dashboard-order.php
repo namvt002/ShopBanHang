@@ -244,7 +244,9 @@
                     </div>
 
                   
-                  
+                    <?php
+                        $sqlHD = "SELECT * FROM hoa_don";
+                    ?>
 
                     <table class="table table-hover">
 
