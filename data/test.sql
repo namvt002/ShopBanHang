@@ -1,0 +1,2 @@
+SELECT * FROM don_hang as dh , chi_tiet_don_hang as ct, hinh_thuc_thanh_toan as ht, khach_hang as kh, san_pham as sp , mau as m, size as s 
+	WHERE dh.HTTT_MA = ht.HTTT_MA and dh.KH_MA = kh.KH_MA and dh.DH_MA = ct.DH_MA and ct.SP_MA = sp.SP_MA and ct.M_MA = m.M_MA and ct.S_MA = s.S_MA

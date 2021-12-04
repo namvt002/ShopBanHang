@@ -52,7 +52,7 @@
     if(isset($_POST['submit_edit'])){
 
         $details = $_POST['details'];
-        $sqlDetails = "UPDATE san_pham SET SP_CT = '$details'";
+        $sqlDetails = "UPDATE san_pham SET SP_CT = '$details' WHERE SP_MA = '".$_GET['id'] ."'";
 
         if($con->query($sqlDetails) === TRUE){
             echo "<script type='text/javascript'>

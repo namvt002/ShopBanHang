@@ -244,38 +244,62 @@
                     </div>
 
                   
-                    <?php
-                        $sqlHD = "SELECT * FROM hoa_don";
-                    ?>
+                   
 
                     <table class="table table-hover">
 
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">STT</th>    
+                                <th scope="col">Tên người nhận</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Thanh toán</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Màu</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Thao tác</th>
+
+
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                        <?php
+                            $sqlHD = "SELECT * FROM don_hang as dh , chi_tiet_don_hang as ct, hinh_thuc_thanh_toan as ht, khach_hang as kh, san_pham as sp , mau as m, size as s 
+                            WHERE dh.HTTT_MA = ht.HTTT_MA and dh.KH_MA = kh.KH_MA  and ct.SP_MA = sp.SP_MA and ct.M_MA = m.M_MA and ct.S_MA = s.S_MA and dh.DH_MA = ct.DH_MA";
+                            $resultHD = $con->query($sqlHD);
+                            $i = 1;
+                          
+                            while($rowsp = $resultHD->fetch_assoc()){
+                                echo "<tr>";
+                                echo " <th scope='row'>$i</th>";
+                                echo " <td '> ". $rowsp['DH_TENNGUOINHAN'] ." </td>";
+                                echo " <td  > ". $rowsp['DH_SDTNN'] ." </td>";
+                                echo " <td > ". $rowsp['DH_NGAYDAT'] ." </td>";
+                                echo " <td > ". $rowsp['HTTT_TEN'] ." </td>";
+                                echo " <td > ". $rowsp['DH_DIACHI'] ." </td>";
+                                echo " <td > ". $rowsp['SP_TEN'] ." </td>";
+                                echo " <td > ". $rowsp['SP_GIA'] ." </td>";
+                                echo " <td > ". $rowsp['S_TEN'] ." </td>";
+                                echo " <td > ". $rowsp['M_TEN'] ." </td>";
+                                // echo " <td class='col-9'>  <img src='  ". "'./public/SanPham/'" . $rowsp['SP_ANH'] ."  '> </td>"  ;//anh
+                                // echo "<td > <img class='image_product' src='./img/admin/".$rowsp['SP_ANH']."' class='rounded mx-auto d-block' style='width:5rem;height:5rem;line-height:5rem;'> </td>";
+                                // echo " <td > ". $rowsp['SP_GIA'] ." </td>"  ;//anh
+                            
+                                echo " <td scope='row' class='text-center'>
+                                <a href='./dashboard-order-delete-XN.php?id=". $rowsp['DH_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Xác nhận đơn</a>
+                                <a href='./dashboard-order-delete-HUY.php?id=". $rowsp['DH_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Hủy đơn</a>
+                                </td>";
+
+                                echo " </tr>";
+                                $i++;
+                            }
+                           
+                    
+                         ?>
                         </tbody>
 
                     </table>
