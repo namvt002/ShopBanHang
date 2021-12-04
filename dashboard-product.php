@@ -269,9 +269,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text"  name = "search"  class="form-control bg-light border-1 small" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary" type="submit" name="submitSearch" >
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -365,27 +365,55 @@
                         <tbody>
                           
                             <?php 
-                                $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA";
-                                $resultsp = $con->query($sqlsp);
-                                $i = 1;
-                                while($rowsp = $resultsp->fetch_assoc()){
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td '> ". $rowsp['LH_TEN'] ." </td>";
-                                    echo " <td  > ". $rowsp['NSX_TEN'] ." </td>";
-                                    echo " <td > ". $rowsp['SP_TEN'] ." </td>";
-                                    // echo " <td class='col-9'>  <img src='  ". "'./public/SanPham/'" . $rowsp['SP_ANH'] ."  '> </td>"  ;//anh
-                                    echo "<td > <img class='image_product' src='./img/admin/".$rowsp['SP_ANH']."' class='rounded mx-auto d-block' style='width:5rem;height:5rem;line-height:5rem;'> </td>";
-                                    echo " <td > ". $rowsp['SP_GIA'] ." </td>"  ;//anh
-                                
-                                    echo " <td scope='row' class='text-center'>
-                                    <a href='./dashboard-product-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                    <a href='./dashboard-product-delete.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
-                                    </td>";
 
-                                    echo " </tr>";
-                                    $i++;
+                                if(isset($_POST['submitSearch'])){
+                                    $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA
+                                         WHERE sp.SP_TEN LIKE '%" . $_POST['search'] . "%'
+                                    ";
+                                    $resultsp = $con->query($sqlsp);
+                                    $i = 1;
+                                    while($rowsp = $resultsp->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td '> ". $rowsp['LH_TEN'] ." </td>";
+                                        echo " <td  > ". $rowsp['NSX_TEN'] ." </td>";
+                                        echo " <td > ". $rowsp['SP_TEN'] ." </td>";
+                                        // echo " <td class='col-9'>  <img src='  ". "'./public/SanPham/'" . $rowsp['SP_ANH'] ."  '> </td>"  ;//anh
+                                        echo "<td > <img class='image_product' src='./img/admin/".$rowsp['SP_ANH']."' class='rounded mx-auto d-block' style='width:5rem;height:5rem;line-height:5rem;'> </td>";
+                                        echo " <td > ". $rowsp['SP_GIA'] ." </td>"  ;//anh
+                                    
+                                        echo " <td scope='row' class='text-center'>
+                                        <a href='./dashboard-product-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                        <a href='./dashboard-product-delete.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+                                }else{
+                                    $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA";
+                                    $resultsp = $con->query($sqlsp);
+                                    $i = 1;
+                                    while($rowsp = $resultsp->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td '> ". $rowsp['LH_TEN'] ." </td>";
+                                        echo " <td  > ". $rowsp['NSX_TEN'] ." </td>";
+                                        echo " <td > ". $rowsp['SP_TEN'] ." </td>";
+                                        // echo " <td class='col-9'>  <img src='  ". "'./public/SanPham/'" . $rowsp['SP_ANH'] ."  '> </td>"  ;//anh
+                                        echo "<td > <img class='image_product' src='./img/admin/".$rowsp['SP_ANH']."' class='rounded mx-auto d-block' style='width:5rem;height:5rem;line-height:5rem;'> </td>";
+                                        echo " <td > ". $rowsp['SP_GIA'] ." </td>"  ;//anh
+                                    
+                                        echo " <td scope='row' class='text-center'>
+                                        <a href='./dashboard-product-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                        <a href='./dashboard-product-delete.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+
+                                        echo " </tr>";
+                                        $i++;
+                                    }
                                 }
+                                
                              ?>
                         </tbody>
 

@@ -44,9 +44,6 @@
         header("Location:./login.php");
     }
 
-    $sqlK = "SELECT * FROM kho_hang";
-    $resultKho = $con->query($sqlK);
-
 
     if(isset($_POST['submit-add'])){
         $ten = $_POST['name_warehouse'];
@@ -254,9 +251,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" name="search" class="form-control bg-light border-1 small"  placeholder="Tìm kiếm tên khuyễn mãi " aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary"  type="submit" name="submitSearch">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -313,20 +310,46 @@
                         <tbody>
                           
                             <?php 
-                                $i = 1;
-                                while($rowKho = $resultKho->fetch_assoc()){
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td > ". $rowKho['K_TEN'] ." </td>";
-                                    echo " <td > ". $rowKho['K_DIACHI'] ." </td>";
-                                  
-                                    echo " <td scope='row' class='text-center'>
-                                        <a href='./dashboard-warehouse-edit.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                        <a href='./dashboard-warehouse-delete.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
-                                    </td>";
-                                    echo " </tr>";
-                                    $i++;
+
+                                if (isset($_POST['submitSearch'])) {
+
+                                    $sqlK = "SELECT * FROM kho_hang WHERE `K_TEN` LIKE '%" . $_POST['search'] . "%'";
+                                    // $sqlK = "SELECT * FROM kho_hang WHERE `K_TEN` LIKE '%" . $_POST['search'] . "%'";
+                                    $resultKho = $con->query($sqlK);
+                                    $i = 1;
+                                    while($rowKho = $resultKho->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td > ". $rowKho['K_TEN'] ." </td>";
+                                        echo " <td > ". $rowKho['K_DIACHI'] ." </td>";
+                                      
+                                        echo " <td scope='row' class='text-center'>
+                                            <a href='./dashboard-warehouse-edit.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                            <a href='./dashboard-warehouse-delete.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+                                }else{
+                                    $sqlK = "SELECT * FROM kho_hang";
+                                    $resultKho = $con->query($sqlK);
+                                    $i = 1;
+                                    while($rowKho = $resultKho->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td > ". $rowKho['K_TEN'] ." </td>";
+                                        echo " <td > ". $rowKho['K_DIACHI'] ." </td>";
+                                      
+                                        echo " <td scope='row' class='text-center'>
+                                            <a href='./dashboard-warehouse-edit.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                            <a href='./dashboard-warehouse-delete.php?id=". $rowKho['K_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                        echo " </tr>";
+                                        $i++;
+                                    }
                                 }
+
+                              
                             ?>
                         </tbody>
 

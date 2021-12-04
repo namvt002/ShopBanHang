@@ -259,9 +259,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" class="form-control bg-light border-1 small" name = "search"  placeholder="Tìm kiếm tên sản phẩm" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary" type="submit" name="submitSearch" >
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -283,23 +283,47 @@
                         <tbody>
                           
                             <?php 
-                                $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA";
-                                $resultsp = $con->query($sqlsp);
-                                $i = 1;
-                                while($rowsp = $resultsp->fetch_assoc()){
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td class='col-2'> ". $rowsp['SP_TEN'] ." </td>";
-                                    echo"<td class='col-6'> <textarea  class='form-control'> ". $rowsp['SP_CT'] ." </textarea> </td>";
-                                    
-                                    // echo " <td class='col-8'> ". $rowsp['SP_CT'] ." </td>";           
-                                    echo " <td scope='row' class='text-center'> 
-                                    <a href='./dashboard-product-details-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                    </td>";
 
-                                    echo " </tr>";
-                                    $i++;
+                                if(isset($_POST['submitSearch'])){
+                                    $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA 
+                                         WHERE sp.SP_TEN LIKE '%" . $_POST['search'] . "%'
+                                    ";
+                                    $resultsp = $con->query($sqlsp);
+                                    $i = 1;
+                                    while($rowsp = $resultsp->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td class='col-2'> ". $rowsp['SP_TEN'] ." </td>";
+                                        echo"<td class='col-6'> <textarea  class='form-control'> ". $rowsp['SP_CT'] ." </textarea> </td>";
+                                        
+                                        // echo " <td class='col-8'> ". $rowsp['SP_CT'] ." </td>";           
+                                        echo " <td scope='row' class='text-center'> 
+                                        <a href='./dashboard-product-details-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                        </td>";
+    
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+                                }else{
+                                    $sqlsp = "SELECT * FROM `san_pham` as sp JOIN loai_san_pham as lsp ON sp.LH_MA = lsp.LH_MA JOIN nha_san_xuat as nsx ON sp.NSX_MA = nsx.NSX_MA";
+                               $resultsp = $con->query($sqlsp);
+                               $i = 1;
+                               while($rowsp = $resultsp->fetch_assoc()){
+                                   echo "<tr>";
+                                   echo " <th scope='row'>$i</th>";
+                                   echo " <td class='col-2'> ". $rowsp['SP_TEN'] ." </td>";
+                                   echo"<td class='col-6'> <textarea  class='form-control'> ". $rowsp['SP_CT'] ." </textarea> </td>";
+                                   
+                                   // echo " <td class='col-8'> ". $rowsp['SP_CT'] ." </td>";           
+                                   echo " <td scope='row' class='text-center'> 
+                                   <a href='./dashboard-product-details-edit.php?id=". $rowsp['SP_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                   </td>";
+
+                                   echo " </tr>";
+                                   $i++;
+                               }
                                 }
+                               
                              ?>
                         </tbody>
 

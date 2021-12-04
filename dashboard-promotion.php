@@ -75,10 +75,7 @@
         }
     }
 
-    $sqlkm = "SELECT ct.CTKM_MA, ct.CTKM_TEN, ct.CTKM_NGAYBD, ct.CTKM_NGAYKT, sp.SP_TEN, ct.CTKM_PHANTRAM
-    FROM san_pham AS sp
-        JOIN chi_tiet_khuyen_mai AS ct ON sp.SP_MA = ct.SP_MA;";
-    $resultkm = $con->query($sqlkm);
+ 
 
 ?>
 
@@ -264,9 +261,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" name = "search" class="form-control bg-light border-1 small" placeholder="Tìm kiếm tên khuyễn mãi" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary" type="submit" name="submitSearch">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -350,24 +347,58 @@
                         <tbody>
 
                             <?php 
-                                $i = 1;
-                                while($rowkm = $resultkm->fetch_assoc()){
-                                   
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td > ". $rowkm['CTKM_TEN'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_NGAYBD'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_NGAYKT'] ." </td>";
-                                    echo " <td > ". $rowkm['SP_TEN'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_PHANTRAM'] ." </td>"  ;
-                                    echo " <td scope='row' class='text-center'>
-                                        <a href='./dashboard-promotion-edit.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                        <a href='./dashboard-promotion-delete.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
-                                    </td>";
-                                
-                                    echo " </tr>";
-                                    $i++;
+
+                                if(isset($_POST['submitSearch'])){
+                                    $sqlkm = "SELECT ct.CTKM_MA, ct.CTKM_TEN, ct.CTKM_NGAYBD, ct.CTKM_NGAYKT, sp.SP_TEN, ct.CTKM_PHANTRAM
+                                    FROM san_pham AS sp
+                                        JOIN chi_tiet_khuyen_mai AS ct ON sp.SP_MA = ct.SP_MA
+                                        WHERE ct.CTKM_TEN LIKE '%" . $_POST['search'] . "%'
+                                        ";
+                                    $resultkm = $con->query($sqlkm);
+                                    $i = 1;
+                                    while($rowkm = $resultkm->fetch_assoc()){
+                                       
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td > ". $rowkm['CTKM_TEN'] ." </td>";
+                                        echo " <td > ". $rowkm['CTKM_NGAYBD'] ." </td>";
+                                        echo " <td > ". $rowkm['CTKM_NGAYKT'] ." </td>";
+                                        echo " <td > ". $rowkm['SP_TEN'] ." </td>";
+                                        echo " <td > ". $rowkm['CTKM_PHANTRAM'] ." </td>"  ;
+                                        echo " <td scope='row' class='text-center'>
+                                            <a href='./dashboard-promotion-edit.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                            <a href='./dashboard-promotion-delete.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                    
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+
+                                }else{
+                                    $sqlkm = "SELECT ct.CTKM_MA, ct.CTKM_TEN, ct.CTKM_NGAYBD, ct.CTKM_NGAYKT, sp.SP_TEN, ct.CTKM_PHANTRAM
+                                    FROM san_pham AS sp
+                                        JOIN chi_tiet_khuyen_mai AS ct ON sp.SP_MA = ct.SP_MA;";
+                                    $resultkm = $con->query($sqlkm);
+                                    $i = 1;
+                                    while($rowkm = $resultkm->fetch_assoc()){
+                                       
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td > ". $rowkm['CTKM_TEN'] ." </td>";
+                                        echo " <td > ". $rowkm['CTKM_NGAYBD'] ." </td>";
+                                        echo " <td > ". $rowkm['CTKM_NGAYKT'] ." </td>";
+                                        echo " <td > ". $rowkm['SP_TEN'] ." </td>";
+                                        echo " <td > ". $rowkm['CTKM_PHANTRAM'] ." </td>"  ;
+                                        echo " <td scope='row' class='text-center'>
+                                            <a href='./dashboard-promotion-edit.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                            <a href='./dashboard-promotion-delete.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                    
+                                        echo " </tr>";
+                                        $i++;
+                                    }
                                 }
+                              
                             ?>
 
                         </tbody>

@@ -44,12 +44,7 @@
         header("Location:./login.php");
     }
 
-    $sqlNH = "SELECT * FROM chi_tiet_phieu_nhap AS ct 
-        JOIN san_pham AS sp ON ct.SP_MA = sp.SP_MA
-        JOIN kho_hang AS kh ON ct.K_MA = kh.K_MA
-        JOIN size AS s ON ct.S_MA = s.S_MA
-        JOIN mau AS m ON ct.M_MA = m.M_MA";
-    $resultNH = $con->query($sqlNH);
+
 
 
     $sqlsp = "SELECT * FROM san_pham";
@@ -275,9 +270,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <form method="post" action="">
                             <div class="input-group">
-                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
+                                 <input type="text" name = "search" class="form-control bg-light border-1 small" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary" type="submit" name="submitSearch">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -403,26 +398,63 @@
                         <tbody>
                          
                             <?php 
-                                $i = 1;
-                                while($rowNH = $resultNH->fetch_assoc()){
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td> ". $rowNH['SP_TEN'] ." </td>";
-                                    echo " <td> ". $rowNH['M_TEN'] ." </td>";
-                                    echo " <td> ". $rowNH['S_TEN'] ." </td>";
-                                    echo " <td> ". $rowNH['CTPN_SOLUONG'] ." </td>";
-                                    echo " <td> ". $rowNH['CTPN_DONGIA'] ." </td>";
-                                    echo " <td> ". $rowNH['CTPN_NGAY'] ." </td>";
-                                    echo " <td> ". $rowNH['K_TEN'] ." </td>";
-                                
-                                    echo " <td scope='row' class='text-center'>
-                                    <a href='./dashboard-warehouse-import-edit.php?id=". $rowNH['CTPN_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                    <a href='./dashboard-warehouse-import-delete.php?id=". $rowNH['CTPN_MA']  ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
-                                    </td>";
-                                
-                                    echo " </tr>";
-                                    $i++;
+
+                                if(isset($_POST['submitSearch'])){
+                                    $sqlNH = "SELECT * FROM chi_tiet_phieu_nhap AS ct 
+                                    JOIN san_pham AS sp ON ct.SP_MA = sp.SP_MA
+                                    JOIN kho_hang AS kh ON ct.K_MA = kh.K_MA
+                                    JOIN size AS s ON ct.S_MA = s.S_MA
+                                    JOIN mau AS m ON ct.M_MA = m.M_MA  WHERE sp.SP_TEN LIKE '%" . $_POST['search'] . "%'";
+                                    $resultNH = $con->query($sqlNH);
+                                    $i = 1;
+                                    while($rowNH = $resultNH->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td> ". $rowNH['SP_TEN'] ." </td>";
+                                        echo " <td> ". $rowNH['M_TEN'] ." </td>";
+                                        echo " <td> ". $rowNH['S_TEN'] ." </td>";
+                                        echo " <td> ". $rowNH['CTPN_SOLUONG'] ." </td>";
+                                        echo " <td> ". $rowNH['CTPN_DONGIA'] ." </td>";
+                                        echo " <td> ". $rowNH['CTPN_NGAY'] ." </td>";
+                                        echo " <td> ". $rowNH['K_TEN'] ." </td>";
+                                    
+                                        echo " <td scope='row' class='text-center'>
+                                        <a href='./dashboard-warehouse-import-edit.php?id=". $rowNH['CTPN_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                        <a href='./dashboard-warehouse-import-delete.php?id=". $rowNH['CTPN_MA']  ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                    
+                                        echo " </tr>";
+                                        $i++;
+                                    }
+                                }else{
+                                    $sqlNH = "SELECT * FROM chi_tiet_phieu_nhap AS ct 
+                                    JOIN san_pham AS sp ON ct.SP_MA = sp.SP_MA
+                                    JOIN kho_hang AS kh ON ct.K_MA = kh.K_MA
+                                    JOIN size AS s ON ct.S_MA = s.S_MA
+                                    JOIN mau AS m ON ct.M_MA = m.M_MA";
+                                    $resultNH = $con->query($sqlNH);
+                                    $i = 1;
+                                    while($rowNH = $resultNH->fetch_assoc()){
+                                        echo "<tr>";
+                                        echo " <th scope='row'>$i</th>";
+                                        echo " <td> ". $rowNH['SP_TEN'] ." </td>";
+                                        echo " <td> ". $rowNH['M_TEN'] ." </td>";
+                                        echo " <td> ". $rowNH['S_TEN'] ." </td>";
+                                        echo " <td> ". $rowNH['CTPN_SOLUONG'] ." </td>";
+                                        echo " <td> ". $rowNH['CTPN_DONGIA'] ." </td>";
+                                        echo " <td> ". $rowNH['CTPN_NGAY'] ." </td>";
+                                        echo " <td> ". $rowNH['K_TEN'] ." </td>";
+                                    
+                                        echo " <td scope='row' class='text-center'>
+                                        <a href='./dashboard-warehouse-import-edit.php?id=". $rowNH['CTPN_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
+                                        <a href='./dashboard-warehouse-import-delete.php?id=". $rowNH['CTPN_MA']  ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
+                                        </td>";
+                                    
+                                        echo " </tr>";
+                                        $i++;
+                                    }
                                 }
+                               
                             ?>
                         </tbody>
 
