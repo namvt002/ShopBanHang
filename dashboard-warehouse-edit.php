@@ -119,7 +119,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Giao diện
             </div>
 
             <li class="nav-item">
@@ -137,6 +137,11 @@
                 <a class="nav-link" href="dashboard-product.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Sản phẩm</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard-category-add.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Danh mục sản phẩm</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="dashboard-product-details.php">

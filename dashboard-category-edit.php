@@ -26,59 +26,48 @@
 
 
 <?php
-    require_once "./database/database_connection.php";
-    session_start();
-    if(!isset($_SESSION['admin'])){
-        header("Location:./login.php");
-    }
+require_once "./database/database_connection.php";
+session_start();
+if (!isset($_SESSION['admin'])) {
+    header("Location:./login.php");
+}
 
-    //session_start();
-    if(isset($_SESSION['admin'])){
-        $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
-        $result = $con->query($sql);
-        $row = $result->fetch_assoc();// tra ve mot dong ket qua
-    }
-
-    if(isset($_POST['logout'])){
-        unset($_SESSION['admin']);
-        header("Location:./login.php");
-    }
-
-
-?>
-
-
-<?php
-
-    require_once "./database/database_connection.php";
-    $sql = "SELECT * FROM san_pham";
+//session_start();
+if (isset($_SESSION['admin'])) {
+    $sql = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
     $result = $con->query($sql);
+    $row = $result->fetch_assoc(); // tra ve mot dong ket qua
+}
 
-    if (isset($_POST['submit-add'])) {
-        $KM_TEN = $_POST['name_promotion'];
-        $KM_NGAYBD = $_POST['start_date'];
-        $KM_NGAYKT = $_POST['end_date'];
-        $CTKM_PHANTRAMKM = $_POST['sale']; //float
-        $LOAI_HANG = $_POST['Loai_Hang'];
-        $sqlKhuyenMai = "INSERT INTO `chi_tiet_khuyen_mai` (`SP_MA`, `CTKM_PHANTRAM`, `CTKM_TEN`, `CTKM_NGAYBD`, `CTKM_NGAYKT`) VALUES ('$LOAI_HANG', '$CTKM_PHANTRAMKM', ' $KM_TEN', '$KM_NGAYBD', '$KM_NGAYKT')";
+if (isset($_POST['logout'])) {
+    unset($_SESSION['admin']);
+    header("Location:./login.php");
+}
 
-        if (!$con->query($sqlKhuyenMai) === TRUE) {
-            echo "<script type='text/javascript'>
-                        alert('Không thêm được khuyến mãi thành công!');
-                        document.location='dashboard-promotion.php';
-                    </script>";
-        } else {
-            echo "<script type='text/javascript'>
-                        alert('Thêm khuyến mãi thành công!');
-                        document.location='dashboard-promotion.php';
-                    </script>";
-        }
-    }
 
-    $sqlkm = "SELECT ct.CTKM_MA, ct.CTKM_TEN, ct.CTKM_NGAYBD, ct.CTKM_NGAYKT, sp.SP_TEN, ct.CTKM_PHANTRAM
-    FROM san_pham AS sp
-        JOIN chi_tiet_khuyen_mai AS ct ON sp.SP_MA = ct.SP_MA;";
-    $resultkm = $con->query($sqlkm);
+
+
+// if(isset($_POST['submit-add'])){
+//     $ten = $_POST['name_warehouse'];
+//     $DC = $_POST['address'];
+
+//     $sqlKho = "INSERT INTO kho_hang(K_TEN, K_DIACHI) VALUES ('$ten','$DC')";
+
+//     if($con->query($sqlKho) === TRUE){
+
+//         echo "<script type='text/javascript'>
+//                     alert('Thêm kho mới thành công!');
+//                     document.location='dashboard-warehouse.php';
+//                 </script>";
+//     }else{
+//         echo "<script type='text/javascript'>
+//                     alert('Thêm kho không thành công!');
+//                     document.location='dashboard-warehouse.php';
+//                 </script>";
+//     }
+
+// }
+
 
 ?>
 
@@ -101,13 +90,14 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="index-admin.php   ">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Quản lý thống kê</span></a>
             </li>
-
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="dashboard-staff-add.php">
@@ -119,13 +109,12 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Khách hàng</span></a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Giao diện
+                Interface
             </div>
             <li class="nav-item">
                 <a class="nav-link" href="index.php">
@@ -236,7 +225,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hồ sơ
                                 </a>
-                               
+
                                 <a class="dropdown-item" href="login.php">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Đăng nhập
@@ -258,121 +247,55 @@
                 <!-- code in here -->.
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Khuyến mãi</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Cập nhật sản phẩm</h1>
 
                     </div>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <form method="post" action="">
-                            <div class="input-group">
-                                 <input type="text" class="form-control bg-light border-1 small" placeholder="Tìm kiếm " aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
+                    
+                    <?php
+                        $sqlEdit = "SELECT * FROM loai_san_pham WHERE LH_MA = '".$_GET['id'] ."'";
+                        $resultEdit = $con->query($sqlEdit);
+                        $rowEdit = $resultEdit->fetch_assoc();
+                    ?>
 
-                            </div>
-                        </form>
-
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-download fa-sm text-white-50"></i>Thêm khuyễn mãi mới</button>
-
-                    </div>
-
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới khuyến mãi</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Tên khuyến mãi:</label>
-                                            <input type="text" name="name_promotion"  class="form-control"  placeholder="Nhập tên khuyến mãi">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Loại sản phẩm</label> <br>
-                                            <select class="form-select" aria-label="Default select example" name="Loai_Hang">
-                                                <option value="">---Chọn loại sản phẩm---</option>
-                                                <?php
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo " <option value=" . $row['SP_MA'] . ">";
-                                                        echo   $row['SP_TEN'];
-                                                        echo " </option>";
-                                                    }
-                                                    $result->free();
-                                                ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Phần trăm khuyến mãi mãi:</label>
-                                            <input type="type" name="sale" class="form-control" placeholder="Nhập tỉ lệ khuyến mãi">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label>Ngày bắt đầu áp dụng</label> <br>
-                                            <input type="date" name="start_date" id="" class="form-control">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="recipient-name" class="col-form-label">Ngày kết thúc</label>
-                                            <input type="date" name="end_date" id="" class="form-control" >
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="submit" name="submit-add" class="btn btn-primary" value="Thêm mới" >
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-
-                                        </div>
-                                    </form>
-                                </div>
-                               
-                            </div>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Tên danh mục:</label> <br>
+                            <input type="type" class="form-control form-control-user" name="Name" value="<?php echo $rowEdit['LH_TEN'] ?>" placeholder="Nhập tên danh mục" required>
                         </div>
-                    </div>
+                        <div class="modal-footer">
+                            <input type="submit" name="submit-add" class="btn btn-primary" value="Cập nhật">
+                            <a href="./dashboard-category-add.php" class="btn btn-secondary">Đóng</a>
 
-                    <table class="table table-hover" class="text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Tên khuyến mãi</th>
-                                <th scope="col">Ngày bắt đầu</th>
-                                <th scope="col">Ngày kết thúc</th>
-                                <th scope="col">Tên sản phẩm khuyến mãi</th>
-                                <th scope="col">Phần trăm khuyến mãi </th>
+                        </div>
 
 
-                                <th scope="col" class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    </form>
 
-                            <?php 
-                                $i = 1;
-                                while($rowkm = $resultkm->fetch_assoc()){
-                                   
-                                    echo "<tr>";
-                                    echo " <th scope='row'>$i</th>";
-                                    echo " <td > ". $rowkm['CTKM_TEN'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_NGAYBD'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_NGAYKT'] ." </td>";
-                                    echo " <td > ". $rowkm['SP_TEN'] ." </td>";
-                                    echo " <td > ". $rowkm['CTKM_PHANTRAM'] ." </td>"  ;
-                                    echo " <td scope='row' class='text-center'>
-                                        <a href='./dashboard-promotion-edit.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-pencil'></i>Sữa</a>
-                                        <a href='./dashboard-promotion-delete.php?id=". $rowkm['CTKM_MA'] ."' type='button' class='btn btn-primary btn-small'><i class='bi bi-person-x'></i> Xóa</a>
-                                    </td>";
-                                
-                                    echo " </tr>";
-                                    $i++;
-                                }
-                            ?>
+                    
+                    <?php
 
-                        </tbody>
+                        if (isset($_POST['submit-add'])) {
+                            $Name = $_POST['Name'];
 
-                    </table>
+
+                            $sqladd = "UPDATE `loai_san_pham` SET `LH_TEN`='$Name' WHERE LH_MA = '".$_GET['id'] ."'";
+
+                            if (!$con->query($sqladd) === TRUE) {
+                                echo "<script type='text/javascript'>
+                                        alert('Cập nhật danh mục không thành công!');
+                                        document.location='dashboard-category-add.php'
+                                    </script>";
+                            } else {
+                                echo "<script type='text/javascript'>
+                                                    alert('Cập nhật danh mục thành công!');
+                                                    document.location='./dashboard-category-add.php';
+                                    </script>";
+                            }
+                        }
+
+                    ?>
+
+
                 </div>
                 <!--  -->
 
@@ -390,15 +313,14 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+    <!-- profile -->
 
-     <!-- profile -->
-
-     <?php
-        $sqlAdmin = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
-        $resultadmin = $con->query($sqlAdmin);
-        $rowAdmin = $resultadmin->fetch_assoc();
+    <?php
+    $sqlAdmin = "SELECT * FROM nhan_vien WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+    $resultadmin = $con->query($sqlAdmin);
+    $rowAdmin = $resultadmin->fetch_assoc();
     ?>
-     <div class="modal fade" id="profileModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="profileModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -411,23 +333,23 @@
                     <form action="" method="post" enctype="multipart/form-data">
 
                         <table class="table table-borderless">
-                           
+
                             <tbody>
                                 <tr>
                                     <th scope="row">Tên tài khoản:</th>
                                     <td><?php echo $rowAdmin['USER_NAME'] ?></td>
-                                   
+
                                 </tr>
                                 <tr>
                                     <th scope="row">Họ và tên:</th>
                                     <td><?php echo $rowAdmin['NV_TEN'] ?></td>
                                 </tr>
-                              
 
-                               
+
+
                             </tbody>
                         </table>
-                        
+
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại:</label>
                             <input type="text" class="form-control" name="phone" value="<?php echo $rowAdmin['NV_SDT']; ?>">
@@ -442,7 +364,7 @@
                             <label class="form-label">Địa chỉ:</label>
                             <input type="text" class="form-control" name="address" value="<?php echo $rowAdmin['NV_DIACHI']; ?>">
                         </div>
-                        
+
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Cập nhật" name="update-profile">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
@@ -452,24 +374,24 @@
                 </div>
                 <?php
 
-                    if(isset($_POST['update-profile'])){
-                        $phone = $_POST['phone'];
-                        $email = $_POST['email'];  
-                        $address = $_POST['address'];
-                        $sqlUpdate = "UPDATE `nhan_vien` SET `NV_EMAIL`='$email',`NV_SDT`='$phone',`NV_DIACHI`='$address' WHERE NV_MA = '" . $_SESSION['admin'] . "'";
-                        if($con->query($sqlUpdate)  === TRUE){
-                            echo "<script type='text/javascript'>
+                if (isset($_POST['update-profile'])) {
+                    $phone = $_POST['phone'];
+                    $email = $_POST['email'];
+                    $address = $_POST['address'];
+                    $sqlUpdate = "UPDATE `nhan_vien` SET `NV_EMAIL`='$email',`NV_SDT`='$phone',`NV_DIACHI`='$address' WHERE NV_MA = '" . $_SESSION['admin'] . "'";
+                    if ($con->query($sqlUpdate)  === TRUE) {
+                        echo "<script type='text/javascript'>
                             alert('Cập nhật thành công!');
                           
                         </script>";
-                        }else{
-                            echo "<script type='text/javascript'>
+                    } else {
+                        echo "<script type='text/javascript'>
                             alert('Cập nhật không thành công!');
                           
                             </script>";
-                        }
                     }
-                               
+                }
+
                 ?>
 
             </div>
@@ -489,7 +411,7 @@
                 <div class="modal-body">Chọn "Đăng xuất" nếu bạn muốn thoát khỏi phiên làm việc hiện tại.</div>
                 <div class="modal-footer">
                     <form action="" method="post">
-                       <input  type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
+                        <input type="submit" class="btn btn-primary" value="Đăng xuất" name="logout">
                     </form>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Huỷ</button>
                 </div>
